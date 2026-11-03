@@ -3,6 +3,7 @@ package com.shop.onlineshopping.exception;
 import com.shop.onlineshopping.dto.ApiError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -70,6 +71,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WebhookVerificationException.class)
     public ResponseEntity<ApiError> handleWebhookVerification(WebhookVerificationException ex, HttpServletRequest req) {
         return build(HttpStatus.BAD_REQUEST, ex.getMessage(), req);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ApiError> handleBadSort(PropertyReferenceException ex, HttpServletRequest req) {
+        // e.g. ?sort=string — the client asked to sort by a field that does not exist on the entity.
+        // That is a bad request, not a server crash, so return a clear 400 instead of a 500.
+        String message = "Invalid sort/property: '" + ex.getPropertyName() + "' is not a valid field";
+        return build(HttpStatus.BAD_REQUEST, message, req);
     }
 
     private ResponseEntity<ApiError> build(HttpStatus status, String message, HttpServletRequest req) {

@@ -21,7 +21,7 @@ class PaymentPropertiesTest {
         assertThat(env.getProperty("stripe.webhook-secret")).isEqualTo("whsec_test_secret");
         assertThat(env.getProperty("stripe.success-url")).isNotBlank();
         assertThat(env.getProperty("stripe.cancel-url")).isNotBlank();
-        assertThat(env.getProperty("spring.mail.host")).isNotBlank();
+        assertThat(env.getProperty("mailtrap.api.base-url")).isNotBlank();
         assertThat(env.getProperty("app.mail.from")).isNotBlank();
     }
 
