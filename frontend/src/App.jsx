@@ -10,6 +10,7 @@ import CheckoutSuccess from './pages/CheckoutSuccess'
 import CheckoutCancel from './pages/CheckoutCancel'
 import Orders from './pages/Orders'
 import Feedback from './pages/Feedback'
+import Admin from './pages/Admin'
 
 export default function App() {
   return (
@@ -26,6 +27,9 @@ export default function App() {
         <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/feedback" element={<ProtectedRoute><Feedback /></ProtectedRoute>} />
+
+        {/* Admin-only dashboard (ProtectedRoute bounces non-admins back to /) */}
+        <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />
 
         {/* Stripe return URLs (match stripe.success-url / cancel-url in the backend) */}
         <Route path="/checkout/success" element={<ProtectedRoute><CheckoutSuccess /></ProtectedRoute>} />
