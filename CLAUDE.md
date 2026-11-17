@@ -51,7 +51,7 @@ cd online-shopping
   `JWT_SECRET`, `STRIPE_SECRET_KEY/WEBHOOK_SECRET`, `MAIL_USERNAME/PASSWORD`, `ADMIN_EMAIL/PASSWORD`.
 - **Tests require no external services**: the `test` profile (`src/test/resources/application-test.properties`)
   swaps MySQL for in-memory H2 (MySQL compatibility mode) and uses dummy Stripe/mail/JWT values.
-- Swagger UI: `http://localhost:8080/swagger-ui.html`.
+- Swagger UI: `http://localhost:8081/swagger-ui.html`.
 
 ## Architecture
 

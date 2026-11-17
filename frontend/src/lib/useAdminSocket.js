@@ -15,7 +15,7 @@ import { Client } from '@stomp/stompjs'
 import { getToken } from '../api/client'
 
 // Build ws://host/ws (or wss:// on https). The page lives on :5173 and Vite
-// proxies /ws through to the backend on :8080 (see vite.config.js), so we just
+// proxies /ws through to the backend on :8081 (see vite.config.js), so we just
 // reuse the current host — no hard-coded port.
 function brokerUrl() {
   const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws'

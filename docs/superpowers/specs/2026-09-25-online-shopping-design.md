@@ -245,7 +245,7 @@ Every request → JwtAuthFilter reads Bearer token → verifies → sets Securit
 - **Controller/integration** (`@SpringBootTest` + MockMvc): auth + role gating (401/403),
   happy paths.
 - Stripe webhook: post a signed sample event; **Stripe CLI** (`stripe listen --forward-to
-  localhost:8080/api/stripe/webhook`) for manual local verification.
+  localhost:8081/api/stripe/webhook`) for manual local verification.
 
 ---
 

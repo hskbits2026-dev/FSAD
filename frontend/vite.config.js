@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     port: 5173,
     // Dev-only forwarder: the browser talks only to :5173, and Vite relays
-    // /api and /ws to the Spring Boot backend on :8080. Same apparent origin,
+    // /api and /ws to the Spring Boot backend on :8081. Same apparent origin,
     // so the browser never blocks the calls for CORS reasons.
     proxy: {
-      '/api': { target: 'http://localhost:8080', changeOrigin: true },
-      '/ws': { target: 'http://localhost:8080', changeOrigin: true, ws: true },
+      '/api': { target: 'http://localhost:8081', changeOrigin: true },
+      '/ws': { target: 'http://localhost:8081', changeOrigin: true, ws: true },
     },
   },
 })
