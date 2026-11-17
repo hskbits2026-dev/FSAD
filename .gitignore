@@ -1,3 +1,7 @@
+# ===== Local deliverables (not tracked) =====
+Deliverables/
+PPT-Resources/
+
 # ===== Secrets (never commit) =====
 .env
 *.env
