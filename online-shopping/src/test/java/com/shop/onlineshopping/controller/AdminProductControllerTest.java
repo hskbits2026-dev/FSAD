@@ -57,7 +57,7 @@ class AdminProductControllerTest {
     }
 
     private ProductRequest validRequest() {
-        return new ProductRequest("Laptop", "A laptop", new BigDecimal("999.99"), 5, Category.ELECTRONICS);
+        return new ProductRequest("Laptop", "A laptop", new BigDecimal("999.99"), 5, Category.ELECTRONICS, null);
     }
 
     private Long createProductAsAdmin() throws Exception {
@@ -103,7 +103,7 @@ class AdminProductControllerTest {
 
     @Test
     void create_negativePrice_returns400() throws Exception {
-        ProductRequest bad = new ProductRequest("Bad", "x", new BigDecimal("-1.00"), 5, Category.ELECTRONICS);
+        ProductRequest bad = new ProductRequest("Bad", "x", new BigDecimal("-1.00"), 5, Category.ELECTRONICS, null);
         mockMvc.perform(post("/api/admin/products")
                         .header("Authorization", "Bearer " + adminToken)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -114,7 +114,7 @@ class AdminProductControllerTest {
 
     @Test
     void create_negativeQoh_returns400() throws Exception {
-        ProductRequest bad = new ProductRequest("Bad", "x", new BigDecimal("1.00"), -5, Category.ELECTRONICS);
+        ProductRequest bad = new ProductRequest("Bad", "x", new BigDecimal("1.00"), -5, Category.ELECTRONICS, null);
         mockMvc.perform(post("/api/admin/products")
                         .header("Authorization", "Bearer " + adminToken)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -127,7 +127,7 @@ class AdminProductControllerTest {
     void update_existing_asAdmin_returns200WithNewValues() throws Exception {
         Long id = createProductAsAdmin();
 
-        ProductRequest update = new ProductRequest("Gaming Laptop", "Fast", new BigDecimal("1299.00"), 3, Category.ELECTRONICS);
+        ProductRequest update = new ProductRequest("Gaming Laptop", "Fast", new BigDecimal("1299.00"), 3, Category.ELECTRONICS, null);
         mockMvc.perform(put("/api/admin/products/" + id)
                         .header("Authorization", "Bearer " + adminToken)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -173,7 +173,7 @@ class AdminProductControllerTest {
 
     @Test
     void create_priceWithThreeDecimals_returns400() throws Exception {
-        ProductRequest bad = new ProductRequest("Bad", "x", new BigDecimal("9.999"), 5, Category.ELECTRONICS);
+        ProductRequest bad = new ProductRequest("Bad", "x", new BigDecimal("9.999"), 5, Category.ELECTRONICS, null);
         mockMvc.perform(post("/api/admin/products")
                         .header("Authorization", "Bearer " + adminToken)
                         .contentType(MediaType.APPLICATION_JSON)

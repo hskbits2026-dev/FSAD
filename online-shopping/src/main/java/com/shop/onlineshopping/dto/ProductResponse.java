@@ -11,7 +11,8 @@ public record ProductResponse(
         String description,
         BigDecimal price,
         Integer qoh,
-        Category category
+        Category category,
+        String image
 ) {
     public static ProductResponse from(Product product) {
         return new ProductResponse(
@@ -20,6 +21,7 @@ public record ProductResponse(
                 product.getDescription(),
                 product.getPrice(),
                 product.getQoh(),
-                product.getCategory());
+                product.getCategory(),
+                product.getImage());
     }
 }

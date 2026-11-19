@@ -44,7 +44,7 @@ class ProductServiceTest {
     }
 
     private ProductRequest request() {
-        return new ProductRequest("Laptop", "A laptop", new BigDecimal("999.99"), 5, Category.ELECTRONICS);
+        return new ProductRequest("Laptop", "A laptop", new BigDecimal("999.99"), 5, Category.ELECTRONICS, null);
     }
 
     @Test
@@ -126,11 +126,29 @@ class ProductServiceTest {
         when(productRepository.save(any(Product.class))).thenAnswer(inv -> inv.getArgument(0));
 
         ProductResponse res = productService.updateProduct(1L,
-                new ProductRequest("Gaming Laptop", "Fast", new BigDecimal("1299.00"), 3, Category.ELECTRONICS));
+                new ProductRequest("Gaming Laptop", "Fast", new BigDecimal("1299.00"), 3, Category.ELECTRONICS, null));
 
         assertThat(res.name()).isEqualTo("Gaming Laptop");
         assertThat(res.price()).isEqualByComparingTo("1299.00");
         assertThat(res.qoh()).isEqualTo(3);
+    }
+
+    @Test
+    void createProduct_withImage_persistsAndReturnsImage() {
+        when(productRepository.save(any(Product.class))).thenAnswer(inv -> {
+            Product p = inv.getArgument(0);
+            p.setId(1L);
+            return p;
+        });
+        String dataUrl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUg==";
+
+        ProductResponse res = productService.createProduct(
+                new ProductRequest("Laptop", "A laptop", new BigDecimal("999.99"), 5, Category.ELECTRONICS, dataUrl));
+
+        ArgumentCaptor<Product> saved = ArgumentCaptor.forClass(Product.class);
+        verify(productRepository).save(saved.capture());
+        assertThat(saved.getValue().getImage()).isEqualTo(dataUrl);
+        assertThat(res.image()).isEqualTo(dataUrl);
     }
 
     @Test

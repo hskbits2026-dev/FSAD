@@ -16,5 +16,8 @@ public record ProductRequest(
         @NotNull @DecimalMin(value = "0.0", inclusive = false)
         @Digits(integer = 10, fraction = 2) BigDecimal price,
         @NotNull @Min(0) Integer qoh,
-        @NotNull Category category
+        @NotNull Category category,
+        // Optional Base64 data-URL image. ~1.4M chars ≈ a 1 MB image once encoded — the cap stops a
+        // huge upload from bloating the row and slowing the catalog list. null/blank = no image.
+        @Size(max = 1_400_000) String image
 ) {}

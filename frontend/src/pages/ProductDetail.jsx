@@ -15,11 +15,13 @@ export default function ProductDetail() {
   const [qty, setQty] = useState(1)
   const [adding, setAdding] = useState(false)
   const [added, setAdded] = useState(false)
+  const [imgBroken, setImgBroken] = useState(false)
 
   useEffect(() => {
     let active = true
     setLoading(true)
     setError('')
+    setImgBroken(false)
     api
       .get(`/api/products/${id}`)
       .then((res) => active && setProduct(res))
@@ -74,7 +76,18 @@ export default function ProductDetail() {
         <Link to="/" className="muted" style={{ fontWeight: 600 }}>← Back to shop</Link>
       </div>
       <div className="detail">
-        <div className="d-thumb" style={{ background: info.grad }}>{productInitial(product.name)}</div>
+        <div className="d-thumb" style={{ background: info.grad }}>
+          {product.image && !imgBroken ? (
+            <img
+              className="d-thumb-img"
+              src={product.image}
+              alt={product.name}
+              onError={() => setImgBroken(true)}
+            />
+          ) : (
+            productInitial(product.name)
+          )}
+        </div>
         <div>
           <div className="cat" style={{ color: 'var(--sage)', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', fontSize: 12 }}>
             {categoryLabel(product.category)}

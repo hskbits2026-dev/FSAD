@@ -6,8 +6,10 @@ import { categoryInfo, categoryLabel, money, productInitial } from '../lib/catal
 export default function ProductCard({ product }) {
   const { addItem } = useCart()
   const [adding, setAdding] = useState(false)
+  const [imgBroken, setImgBroken] = useState(false)
   const info = categoryInfo(product.category)
   const outOfStock = product.qoh <= 0
+  const showImage = product.image && !imgBroken
 
   async function handleAdd() {
     setAdding(true)
@@ -23,7 +25,18 @@ export default function ProductCard({ product }) {
   return (
     <article className="card">
       <Link to={`/products/${product.id}`} className="thumb" style={{ background: info.grad }}>
-        <b>{productInitial(product.name)}</b>
+        {showImage ? (
+          // Real product photo (Base64 data URL from the backend). If it ever fails to load,
+          // onError flips imgBroken and we fall back to the gradient + letter tile below.
+          <img
+            className="thumb-img"
+            src={product.image}
+            alt={product.name}
+            onError={() => setImgBroken(true)}
+          />
+        ) : (
+          <b>{productInitial(product.name)}</b>
+        )}
         <span className="fav" aria-hidden>♡</span>
       </Link>
       <div className="cat">{categoryLabel(product.category)}</div>

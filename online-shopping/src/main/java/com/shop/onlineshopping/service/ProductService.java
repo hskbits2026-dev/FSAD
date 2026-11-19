@@ -57,5 +57,6 @@ public class ProductService {
         product.setPrice(request.price());
         product.setQoh(request.qoh());
         product.setCategory(request.category());
+        product.setImage(request.image());
     }
 }
