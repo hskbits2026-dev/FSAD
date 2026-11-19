@@ -58,9 +58,11 @@ class ProductControllerTest {
     }
 
     @Test
-    void listProducts_noToken_returns4xx() throws Exception {
+    void listProducts_noToken_isPublic_returns200() throws Exception {
+        // Browsing is public — reading the catalog needs no login (GET /api/products/**).
         mockMvc.perform(get("/api/products"))
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totalElements").value(3));
     }
 
     @Test

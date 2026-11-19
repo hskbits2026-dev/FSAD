@@ -20,6 +20,12 @@ public class Feedback {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // Optional link to the product this feedback is about. NULL = general site feedback
+    // (the standalone /feedback page); non-null = a review of that specific product.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     @Column(nullable = false, length = 2000)
     private String message;
 

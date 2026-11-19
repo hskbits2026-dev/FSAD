@@ -21,9 +21,12 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
+        {/* Public browsing: anyone can see the catalog, products, and their reviews.
+            Writing a review / cart / checkout still require login (gated below). */}
+        <Route path="/" element={<Catalog />} />
+        <Route path="/products/:id" element={<ProductDetail />} />
+
         {/* Everything below requires being logged in (backend needs a JWT too) */}
-        <Route path="/" element={<ProtectedRoute><Catalog /></ProtectedRoute>} />
-        <Route path="/products/:id" element={<ProtectedRoute><ProductDetail /></ProtectedRoute>} />
         <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/feedback" element={<ProtectedRoute><Feedback /></ProtectedRoute>} />

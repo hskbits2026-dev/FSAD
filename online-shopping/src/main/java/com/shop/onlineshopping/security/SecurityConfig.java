@@ -3,6 +3,7 @@ package com.shop.onlineshopping.security;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -44,6 +45,10 @@ public class SecurityConfig {
                                 // and surfaces to the client as a misleading empty 403 instead of
                                 // the real 500. Permitting it lets real error responses through.
                                 "/error").permitAll()
+                        // Browsing is public: reading the catalog, a product, and its reviews needs
+                        // no login (GET only). Writing a review is a POST, so it falls through to
+                        // the authenticated rule below. Product writes live under /api/admin/**.
+                        .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

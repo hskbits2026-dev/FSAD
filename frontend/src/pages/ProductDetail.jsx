@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
+import FeedbackForm from '../components/FeedbackForm'
 import { categoryInfo, categoryLabel, money, productInitial } from '../lib/catalog'
 
 export default function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { addItem } = useCart()
+  const { isAuthenticated } = useAuth()
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -16,6 +19,7 @@ export default function ProductDetail() {
   const [adding, setAdding] = useState(false)
   const [added, setAdded] = useState(false)
   const [imgBroken, setImgBroken] = useState(false)
+  const [reviews, setReviews] = useState(null) // ProductReviewsResponse
 
   useEffect(() => {
     let active = true
@@ -32,7 +36,29 @@ export default function ProductDetail() {
     }
   }, [id])
 
+  // Reviews load separately (public endpoint) so a review error never blocks the product view.
+  useEffect(() => {
+    let active = true
+    api.get(`/api/products/${id}/feedback`).then((res) => active && setReviews(res)).catch(() => {})
+    return () => {
+      active = false
+    }
+  }, [id])
+
+  function refreshReviews() {
+    return api.get(`/api/products/${id}/feedback`).then(setReviews)
+  }
+
+  async function submitReview({ rating, message }) {
+    await api.post(`/api/products/${id}/feedback`, { message, rating })
+    await refreshReviews()
+  }
+
   async function handleAdd() {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: `/products/${id}` } })
+      return
+    }
     setAdding(true)
     setAdded(false)
     try {
@@ -120,6 +146,52 @@ export default function ProductDetail() {
           )}
         </div>
       </div>
+
+      {/* ---- Reviews: anyone can read; writing requires login ---- */}
+      <section style={{ marginTop: 44, borderTop: '1px solid var(--line)', paddingTop: 28 }}>
+        <h2 style={{ fontSize: 26, margin: '0 0 6px' }}>Reviews</h2>
+        {reviews && reviews.count > 0 ? (
+          <p className="muted" style={{ fontWeight: 600 }}>
+            <span style={{ color: 'var(--terra)' }}>
+              {'★'.repeat(Math.round(reviews.averageRating))}{'☆'.repeat(5 - Math.round(reviews.averageRating))}
+            </span>{' '}
+            {reviews.averageRating.toFixed(1)} · {reviews.count} review{reviews.count > 1 ? 's' : ''}
+          </p>
+        ) : (
+          <p className="muted">No reviews yet — be the first to review this product.</p>
+        )}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, margin: '18px 0 28px' }}>
+          {reviews?.items.map((r, i) => (
+            <div key={i} style={{ border: '1px solid var(--line)', borderRadius: 'var(--radius-sm)', padding: '14px 16px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <strong>{r.reviewerName}</strong>
+                <span style={{ color: 'var(--terra)' }}>{'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}</span>
+              </div>
+              <p style={{ margin: '8px 0 0' }}>{r.message}</p>
+              <div className="muted" style={{ fontSize: 12, marginTop: 6 }}>
+                {new Date(r.createdAt).toLocaleDateString()}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ maxWidth: 520, border: '1px solid var(--line)', borderRadius: 'var(--radius-sm)', padding: '20px 22px' }}>
+          <h3 style={{ margin: '0 0 10px' }}>Write a review</h3>
+          {isAuthenticated ? (
+            <FeedbackForm onSubmit={submitReview} submitLabel="Submit review"
+              doneText="Thanks! Your review was posted. 🌿" />
+          ) : (
+            <>
+              <p className="muted" style={{ margin: '0 0 14px' }}>Please log in to write a review.</p>
+              <button className="btn btn-terra"
+                onClick={() => navigate('/login', { state: { from: `/products/${id}` } })}>
+                Log in to write a review
+              </button>
+            </>
+          )}
+        </div>
+      </section>
     </main>
   )
 }
