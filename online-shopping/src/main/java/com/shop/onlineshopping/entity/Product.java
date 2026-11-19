@@ -32,7 +32,12 @@ public class Product {
     private int qoh;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    // Store the category as a plain VARCHAR string, NOT a native MySQL ENUM. Hibernate maps a
+    // STRING enum to a native ENUM column on MySQL by default, which freezes the allowed values
+    // at table-creation time — so later adding a Category (e.g. SPORTS_EQUIPMENT) would be
+    // rejected ("Data truncated") until someone hand-alters the column. VARCHAR avoids that:
+    // new category values just work, no database migration needed.
+    @Column(nullable = false, columnDefinition = "varchar(40)")
     private Category category;
 
     // Product image stored inline as a Base64 "data URL" (e.g. "data:image/jpeg;base64,...").

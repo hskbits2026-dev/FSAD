@@ -35,7 +35,7 @@ class ReportServiceTest {
     void salesReport_sumsCategoryLinesAndCountsPaidOrders() {
         when(salesAnalysisService.sales(SalesPeriod.MONTH, SalesGroupBy.CATEGORY)).thenReturn(List.of(
                 new SalesLineResponse("ELECTRONICS", 3L, new BigDecimal("2000.00")),
-                new SalesLineResponse("ELECTRICAL", 4L, new BigDecimal("200.00"))));
+                new SalesLineResponse("SPORTS_EQUIPMENT", 4L, new BigDecimal("200.00"))));
         when(orderRepository.countByStatusAndOrderDateGreaterThanEqual(eq(OrderStatus.PAID), any(Instant.class)))
                 .thenReturn(5L);
 

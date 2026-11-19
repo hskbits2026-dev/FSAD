@@ -74,7 +74,7 @@ class OrderItemRepositoryTest {
     void salesByProduct_sumsOnlyPaidOrdersWithinPeriod() {
         user = newUser("sales@shop.com");
         Product laptop = newProduct("Laptop", Category.ELECTRONICS, "1000.00");
-        Product lamp = newProduct("Lamp", Category.ELECTRICAL, "50.00");
+        Product lamp = newProduct("Lamp", Category.SPORTS_EQUIPMENT, "50.00");
         Instant recent = Instant.now().minus(1, ChronoUnit.DAYS);
         Instant old = Instant.now().minus(400, ChronoUnit.DAYS);
 
@@ -105,12 +105,12 @@ class OrderItemRepositoryTest {
         user = newUser("cat@shop.com");
         Product laptop = newProduct("Laptop", Category.ELECTRONICS, "1000.00");
         Product phone = newProduct("Phone", Category.ELECTRONICS, "500.00");
-        Product lamp = newProduct("Lamp", Category.ELECTRICAL, "50.00");
+        Product lamp = newProduct("Lamp", Category.SPORTS_EQUIPMENT, "50.00");
         Instant recent = Instant.now().minus(1, ChronoUnit.DAYS);
 
         newOrder(OrderStatus.PAID, recent, laptop, 1, "1000.00");
         newOrder(OrderStatus.PAID, recent, phone, 2, "500.00");   // ELECTRONICS total: qty 3, rev 2000
-        newOrder(OrderStatus.PAID, recent, lamp, 4, "50.00");     // ELECTRICAL total: qty 4, rev 200
+        newOrder(OrderStatus.PAID, recent, lamp, 4, "50.00");     // SPORTS_EQUIPMENT total: qty 4, rev 200
 
         em.flush();
         em.clear();
@@ -124,7 +124,7 @@ class OrderItemRepositoryTest {
         assertThat(electronics.totalQuantity()).isEqualTo(3L);
         assertThat(electronics.totalRevenue()).isEqualByComparingTo("2000.00");
         CategorySalesRow electrical = rows.stream()
-                .filter(r -> r.category() == Category.ELECTRICAL).findFirst().orElseThrow();
+                .filter(r -> r.category() == Category.SPORTS_EQUIPMENT).findFirst().orElseThrow();
         assertThat(electrical.totalQuantity()).isEqualTo(4L);
         assertThat(electrical.totalRevenue()).isEqualByComparingTo("200.00");
     }
@@ -133,7 +133,7 @@ class OrderItemRepositoryTest {
     void movementRanking_ordersByQuantitySoldDescending() {
         user = newUser("move@shop.com");
         Product laptop = newProduct("Laptop", Category.ELECTRONICS, "1000.00");
-        Product lamp = newProduct("Lamp", Category.ELECTRICAL, "50.00");
+        Product lamp = newProduct("Lamp", Category.SPORTS_EQUIPMENT, "50.00");
         Instant recent = Instant.now().minus(1, ChronoUnit.DAYS);
 
         newOrder(OrderStatus.PAID, recent, laptop, 2, "1000.00");

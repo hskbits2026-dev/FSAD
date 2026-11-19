@@ -130,7 +130,7 @@ class SalesControllerTest {
     void movement_asAdmin_returnsRanking() throws Exception {
         User user = persistUser("buyer@shop.com");
         Product laptop = persistProduct("Laptop", Category.ELECTRONICS, "1000.00");
-        Product lamp = persistProduct("Lamp", Category.ELECTRICAL, "50.00");
+        Product lamp = persistProduct("Lamp", Category.SPORTS_EQUIPMENT, "50.00");
         seedPaidOrder(user, laptop, 2, "1000.00");
         seedPaidOrder(user, lamp, 10, "50.00");
 

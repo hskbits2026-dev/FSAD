@@ -46,13 +46,13 @@ class SalesAnalysisServiceTest {
     void sales_byCategory_mapsCategoryRowsToLinesWithEnumNameLabel() {
         when(orderItemRepository.salesByCategory(any(Instant.class))).thenReturn(List.of(
                 new CategorySalesRow(Category.ELECTRONICS, 3L, new BigDecimal("2000.00")),
-                new CategorySalesRow(Category.ELECTRICAL, 4L, new BigDecimal("200.00"))));
+                new CategorySalesRow(Category.SPORTS_EQUIPMENT, 4L, new BigDecimal("200.00"))));
 
         List<SalesLineResponse> result = salesAnalysisService.sales(SalesPeriod.YEAR, SalesGroupBy.CATEGORY);
 
         assertThat(result).containsExactly(
                 new SalesLineResponse("ELECTRONICS", 3L, new BigDecimal("2000.00")),
-                new SalesLineResponse("ELECTRICAL", 4L, new BigDecimal("200.00")));
+                new SalesLineResponse("SPORTS_EQUIPMENT", 4L, new BigDecimal("200.00")));
     }
 
     @Test
