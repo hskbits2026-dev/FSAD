@@ -1,0 +1,482 @@
+[
+  {
+    "name": "Wireless Over-Ear Headphones",
+    "description": "Lightweight on-ear headphones with soft foam cushions and an adjustable steel headband for all-day comfort. Rich, balanced sound for music and calls.",
+    "price": "2999.00",
+    "qoh": 60,
+    "category": "ELECTRONICS",
+    "image": "elec-01-headphones.jpg"
+  },
+  {
+    "name": "Smart Fitness Watch",
+    "description": "Touchscreen smartwatch that tracks steps, heart rate and sleep, with smartphone notifications on the wrist. Sweat-resistant with a comfortable silicone strap.",
+    "price": "4999.00",
+    "qoh": 75,
+    "category": "ELECTRONICS",
+    "image": "elec-02-smartwatch.jpg"
+  },
+  {
+    "name": "Wireless Optical Mouse",
+    "description": "Ergonomic black wireless mouse with precise optical tracking and a smooth scroll wheel. Plug-and-play nano receiver for lag-free use.",
+    "price": "899.00",
+    "qoh": 120,
+    "category": "ELECTRONICS",
+    "image": "elec-03-mouse.jpg"
+  },
+  {
+    "name": "Compact Mechanical Keyboard",
+    "description": "Premium 60% mechanical keyboard with tactile switches and durable keycaps for a satisfying typing feel. Space-saving layout ideal for desk setups.",
+    "price": "6999.00",
+    "qoh": 45,
+    "category": "ELECTRONICS",
+    "image": "elec-04-keyboard.jpg"
+  },
+  {
+    "name": "Quadcopter Camera Drone",
+    "description": "Stable four-rotor camera drone with a gimbal-mounted HD camera for smooth aerial photos and video. Easy to fly for beginners and hobbyists.",
+    "price": "34999.00",
+    "qoh": 18,
+    "category": "ELECTRONICS",
+    "image": "elec-05-drone.jpg"
+  },
+  {
+    "name": "20000mAh Power Bank",
+    "description": "High-capacity portable charger that refills your phone multiple times on a single charge. Dual-port output with an included charging cable.",
+    "price": "1999.00",
+    "qoh": 100,
+    "category": "ELECTRONICS",
+    "image": "elec-06-powerbank.jpg"
+  },
+  {
+    "name": "10-inch Android Tablet",
+    "description": "Slim tablet with a vivid 10-inch display, front camera and long battery life for browsing, streaming and reading on the go.",
+    "price": "18999.00",
+    "qoh": 30,
+    "category": "ELECTRONICS",
+    "image": "elec-07-tablet.jpg"
+  },
+  {
+    "name": "22-inch LED Monitor",
+    "description": "Crisp Full-HD LED monitor with a slim bezel and sturdy stand. Flicker-free panel that is easy on the eyes for work and entertainment.",
+    "price": "9499.00",
+    "qoh": 40,
+    "category": "ELECTRONICS",
+    "image": "elec-08-monitor.jpg"
+  },
+  {
+    "name": "Dual-Band Wi-Fi Router",
+    "description": "Reliable dual-band wireless router delivering fast, stable coverage across your home. Simple setup with WPS one-touch pairing.",
+    "price": "2499.00",
+    "qoh": 55,
+    "category": "ELECTRONICS",
+    "image": "elec-09-router.jpg"
+  },
+  {
+    "name": "Portable External SSD 1TB",
+    "description": "Pocket-sized 1TB external solid-state drive with fast USB transfer speeds. Shock-resistant metal body for backups and media on the move.",
+    "price": "7999.00",
+    "qoh": 50,
+    "category": "ELECTRONICS",
+    "image": "elec-10-ssd.jpg"
+  },
+  {
+    "name": "Cordless LED Table Lamp",
+    "description": "Rechargeable cordless LED lamp with a soft, even glow and touch control. Minimalist design that brightens any desk or bedside.",
+    "price": "1499.00",
+    "qoh": 80,
+    "category": "ELECTRONICS",
+    "image": "elec-11-lamp.jpg"
+  },
+  {
+    "name": "Portable Bluetooth Speaker",
+    "description": "Compact Bluetooth speaker with punchy stereo sound, USB and microSD playback, and a built-in rechargeable battery for music anywhere.",
+    "price": "2299.00",
+    "qoh": 90,
+    "category": "ELECTRONICS",
+    "image": "elec-12-speaker.jpg"
+  },
+  {
+    "name": "ErgoFlex Mesh Office Chair",
+    "description": "Ergonomic high-back office chair with breathable mesh, adjustable armrests, and a headrest for all-day comfort. Smooth-rolling castors and 360-degree swivel.",
+    "price": "8999.00",
+    "qoh": 40,
+    "category": "FURNITURE",
+    "image": "furn-01-office-chair.jpg"
+  },
+  {
+    "name": "Walnut 6-Seater Dining Table Set",
+    "description": "Classic solid-wood dining table in a rich walnut finish, paired with matching slat-back chairs. A warm centrepiece for family meals.",
+    "price": "34999.00",
+    "qoh": 15,
+    "category": "FURNITURE",
+    "image": "furn-02-dining-table.jpg"
+  },
+  {
+    "name": "Nordic 3-Seater Fabric Sofa",
+    "description": "Relaxed three-seater sofa in soft blue upholstery with deep, plush cushions. Understated modern lines that suit any living room.",
+    "price": "42999.00",
+    "qoh": 18,
+    "category": "FURNITURE",
+    "image": "furn-03-fabric-sofa.jpg"
+  },
+  {
+    "name": "Heritage Glass-Front Bookcase",
+    "description": "Tall mahogany bookcase with glazed upper doors and a roomy drawer-and-cabinet base. Timeless storage for books and display pieces.",
+    "price": "27999.00",
+    "qoh": 12,
+    "category": "FURNITURE",
+    "image": "furn-04-bookshelf.jpg"
+  },
+  {
+    "name": "Walnut Storage Bed Frame",
+    "description": "Queen-size solid walnut bed frame with built-in under-bed storage drawers. Handcrafted grain detailing on a sturdy platform base.",
+    "price": "38999.00",
+    "qoh": 14,
+    "category": "FURNITURE",
+    "image": "furn-05-bed-frame.jpg"
+  },
+  {
+    "name": "Sheesham Wood Coffee Table",
+    "description": "Chunky square coffee table in warm honey-toned solid wood with thick block legs. A durable, characterful living-room centrepiece.",
+    "price": "12499.00",
+    "qoh": 30,
+    "category": "FURNITURE",
+    "image": "furn-06-coffee-table.jpg"
+  },
+  {
+    "name": "Noir Lacquered 2-Door Wardrobe",
+    "description": "Striking two-door wardrobe in black lacquer with delicate gold floral inlay and a lower drawer. Statement storage for the bedroom.",
+    "price": "45999.00",
+    "qoh": 10,
+    "category": "FURNITURE",
+    "image": "furn-07-wardrobe.jpg"
+  },
+  {
+    "name": "Marquetry Writing Desk",
+    "description": "Ornate study desk with brass-and-tortoiseshell marquetry and fluted gilt legs. A luxurious workspace with multiple drawers.",
+    "price": "52999.00",
+    "qoh": 10,
+    "category": "FURNITURE",
+    "image": "furn-08-study-desk.jpg"
+  },
+  {
+    "name": "Saffron Wingback Accent Armchair",
+    "description": "Cosy high-wing accent armchair in bright saffron fabric with tapered wooden legs. Adds a bold pop of colour to any corner.",
+    "price": "16999.00",
+    "qoh": 22,
+    "category": "FURNITURE",
+    "image": "furn-09-accent-armchair.jpg"
+  },
+  {
+    "name": "Luxe Leather Bar Stool",
+    "description": "Height bar stool with a cushioned leather seat on a brushed stainless-steel column and footrest. Sleek seating for island or bar counters.",
+    "price": "7499.00",
+    "qoh": 48,
+    "category": "FURNITURE",
+    "image": "furn-10-bar-stool.jpg"
+  },
+  {
+    "name": "Classic 4-Drawer Chest of Drawers",
+    "description": "Solid mahogany chest of drawers with brass drop-pull handles and turned bun feet. Generous storage with heritage styling.",
+    "price": "22999.00",
+    "qoh": 16,
+    "category": "FURNITURE",
+    "image": "furn-11-chest-of-drawers.jpg"
+  },
+  {
+    "name": "Modern Wall-Mounted TV Unit",
+    "description": "Contemporary floating TV entertainment unit with gloss panelling, accent lighting, and drawer storage for media and consoles.",
+    "price": "29999.00",
+    "qoh": 13,
+    "category": "FURNITURE",
+    "image": "furn-12-tv-unit.jpg"
+  },
+  {
+    "name": "Rosé Satin Lipstick",
+    "description": "A creamy satin-finish lipstick in a soft rose-pink shade that glides on smoothly for all-day colour and comfort.",
+    "price": "499.00",
+    "qoh": 90,
+    "category": "COSMETICS",
+    "image": "cosm-01-lipstick.jpg"
+  },
+  {
+    "name": "Chanel No.5 Eau de Parfum",
+    "description": "The timeless floral-aldehyde fragrance in its iconic faceted bottle. An elegant signature scent for every occasion.",
+    "price": "8999.00",
+    "qoh": 25,
+    "category": "COSMETICS",
+    "image": "cosm-02-perfume.jpg"
+  },
+  {
+    "name": "Zoya Nail Polish Trio",
+    "description": "Glossy, long-wear nail lacquer in delicate pink and nude tones. Chip-resistant shine that dries to a smooth finish.",
+    "price": "649.00",
+    "qoh": 70,
+    "category": "COSMETICS",
+    "image": "cosm-03-nail-polish.jpg"
+  },
+  {
+    "name": "Daring Curves Volumising Mascara",
+    "description": "A lengthening and volumising mascara with a curved brush that lifts and separates lashes for a bold, wide-eyed look.",
+    "price": "399.00",
+    "qoh": 110,
+    "category": "COSMETICS",
+    "image": "cosm-04-mascara.jpg"
+  },
+  {
+    "name": "Rose Gold Eyeshadow Palette",
+    "description": "A versatile palette of matte and shimmer shades with coordinating brushes. Blendable, highly pigmented eye colour for day to night.",
+    "price": "1299.00",
+    "qoh": 55,
+    "category": "COSMETICS",
+    "image": "cosm-05-eyeshadow-palette.jpg"
+  },
+  {
+    "name": "Aleppo Laurel Herbal Soap",
+    "description": "A traditional handmade Aleppo soap bar enriched with laurel oil. Gentle, nourishing cleansing for face and body.",
+    "price": "299.00",
+    "qoh": 100,
+    "category": "COSMETICS",
+    "image": "cosm-06-herbal-soap.jpg"
+  },
+  {
+    "name": "Warm Vanilla Sugar Body Cream",
+    "description": "A 24-hour ultra-shea moisturising body cream with a cosy warm-vanilla scent. Leaves skin soft, smooth and lightly fragranced.",
+    "price": "749.00",
+    "qoh": 80,
+    "category": "COSMETICS",
+    "image": "cosm-07-body-lotion.jpg"
+  },
+  {
+    "name": "Anthelios UVMune 400 SPF 50+ Sunscreen",
+    "description": "A lightweight, non-greasy invisible fluid offering very high broad-spectrum UVA/UVB protection. Fragrance-free and suitable for sensitive skin.",
+    "price": "1499.00",
+    "qoh": 60,
+    "category": "COSMETICS",
+    "image": "cosm-08-sunscreen.jpg"
+  },
+  {
+    "name": "Dove Intense Repair Nourishing Shampoo",
+    "description": "A nourishing shampoo with Nutri-Serum that helps repair and strengthen damaged hair, leaving it soft and manageable.",
+    "price": "349.00",
+    "qoh": 120,
+    "category": "COSMETICS",
+    "image": "cosm-09-shampoo.jpg"
+  },
+  {
+    "name": "4711 Classic Talcum Powder",
+    "description": "A finely milled talcum powder with the classic 4711 cologne fragrance. Keeps skin dry, fresh and smooth all day.",
+    "price": "399.00",
+    "qoh": 65,
+    "category": "COSMETICS",
+    "image": "cosm-10-talcum-powder.jpg"
+  },
+  {
+    "name": "Daily Care Moisturising Lip Balm",
+    "description": "A soothing lip balm stick that locks in moisture and protects against dryness and chapping for soft, healthy lips.",
+    "price": "199.00",
+    "qoh": 115,
+    "category": "COSMETICS",
+    "image": "cosm-11-lip-balm.jpg"
+  },
+  {
+    "name": "Rexona Shower Clean Antiperspirant Spray",
+    "description": "A 48-hour expert-protection antiperspirant deodorant spray with a fresh shower-clean scent. Keeps you dry and confident all day.",
+    "price": "299.00",
+    "qoh": 105,
+    "category": "COSMETICS",
+    "image": "cosm-12-deodorant.jpg"
+  },
+  {
+    "name": "Classic Sweater Teddy Bear",
+    "description": "A soft and cuddly cream teddy bear dressed in a cozy knitted red snowflake sweater. The perfect huggable companion for children and collectors alike.",
+    "price": "1299.00",
+    "qoh": 70,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-01-teddy-bear.jpg"
+  },
+  {
+    "name": "Wooden Alphabet Building Blocks",
+    "description": "A charming set of vintage-style wooden letter blocks for spelling, stacking and early learning. Crafted from solid wood with colourful embossed letters.",
+    "price": "899.00",
+    "qoh": 90,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-02-alphabet-blocks.jpg"
+  },
+  {
+    "name": "Die-Cast Ferrari 250 GTO Model Car",
+    "description": "A beautifully detailed 1:18 scale die-cast replica of the iconic red Ferrari 250 GTO, complete with opening features and chrome finishes. A standout for any collector's shelf.",
+    "price": "2499.00",
+    "qoh": 45,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-03-diecast-car.jpg"
+  },
+  {
+    "name": "Wooden Staunton Chess Set",
+    "description": "A complete tournament-style chess set with weighted wooden Staunton pieces on a warm walnut-and-maple board. Ideal for beginners and seasoned players.",
+    "price": "1799.00",
+    "qoh": 50,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-04-chess-set.jpg"
+  },
+  {
+    "name": "500-Piece Kingfisher Jigsaw Puzzle",
+    "description": "A vivid 500-piece jigsaw puzzle featuring a brilliant blue kingfisher perched over a mossy branch. Hours of relaxing, screen-free fun for the whole family.",
+    "price": "649.00",
+    "qoh": 80,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-05-jigsaw-puzzle.jpg"
+  },
+  {
+    "name": "Classic 3x3 Speed Cube",
+    "description": "The timeless colour-matching twist puzzle that challenges your mind and sharpens problem-solving. Smooth-turning mechanism for quick solves.",
+    "price": "499.00",
+    "qoh": 120,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-06-rubiks-cube.jpg"
+  },
+  {
+    "name": "Wooden Toy Train with Carriages",
+    "description": "A brightly coloured wooden locomotive and carriages that roll smoothly along chunky wooden tracks. A nursery classic that encourages imaginative play.",
+    "price": "1149.00",
+    "qoh": 65,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-07-wooden-train.jpg"
+  },
+  {
+    "name": "Heirloom Bisque Fashion Doll",
+    "description": "An elegant collectible bisque fashion doll in a period striped gown and bonnet. A graceful display piece for doll enthusiasts and nurseries.",
+    "price": "3299.00",
+    "qoh": 25,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-08-fashion-doll.jpg"
+  },
+  {
+    "name": "Just One Party Board Game",
+    "description": "A fast and fun cooperative word-guessing party game for 3 to 7 players. Includes wipe-clean boards, markers and hundreds of mystery word cards.",
+    "price": "1499.00",
+    "qoh": 55,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-09-party-board-game.jpg"
+  },
+  {
+    "name": "Vintage Hardcover Classics Set",
+    "description": "A stack of handsomely bound hardcover classics with gilded spines and timeless charm. A warm addition to any bookshelf or reading nook.",
+    "price": "1999.00",
+    "qoh": 40,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-10-hardcover-books.jpg"
+  },
+  {
+    "name": "Alice's Adventures in Wonderland (Illustrated)",
+    "description": "A beautifully illustrated children's edition of Lewis Carroll's beloved classic, with a vivid vintage Mad Hatter tea-party cover. A treasured bedtime favourite.",
+    "price": "599.00",
+    "qoh": 85,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-11-picture-book.jpg"
+  },
+  {
+    "name": "Snuggle Plush Bear with Bow",
+    "description": "An irresistibly soft white plush bear finished with a satin burgundy bow. Gentle and lightweight, making it a lovely gift for babies and toddlers.",
+    "price": "999.00",
+    "qoh": 75,
+    "category": "TOYS_AND_BOOKS",
+    "image": "toys-12-plush-bear.jpg"
+  },
+  {
+    "name": "Adjustable Dumbbell Set",
+    "description": "Cast-iron adjustable dumbbell set with spinlock collars and stackable weight plates. Build strength at home and customise the load for every exercise.",
+    "price": "2499.00",
+    "qoh": 40,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-01-dumbbell-set.jpg"
+  },
+  {
+    "name": "Non-Slip Yoga Mat",
+    "description": "Cushioned anti-skid yoga mat with a textured surface for stable grip during yoga, pilates and floor workouts. Lightweight and easy to roll up.",
+    "price": "899.00",
+    "qoh": 90,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-02-yoga-mat.jpg"
+  },
+  {
+    "name": "Match Football (Size 5)",
+    "description": "Durable hand-stitched size 5 football with a soft PU cover and consistent flight. Ideal for practice and weekend matches on grass or turf.",
+    "price": "1299.00",
+    "qoh": 75,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-03-football.jpg"
+  },
+  {
+    "name": "Willow Cricket Bat",
+    "description": "Classic willow cricket bat with a comfortable gripped handle and a well-balanced profile. A dependable choice for club and backyard cricket.",
+    "price": "1999.00",
+    "qoh": 35,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-04-cricket-bat.jpg"
+  },
+  {
+    "name": "Tennis Racket with Balls",
+    "description": "Lightweight strung tennis racket with a cushioned grip, supplied with a pair of practice balls. Great control and power for beginners and intermediates.",
+    "price": "2799.00",
+    "qoh": 30,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-05-tennis-racket.jpg"
+  },
+  {
+    "name": "Carbon Badminton Racket",
+    "description": "Featherlight carbon-shaft badminton racket with an isometric head for a larger sweet spot and fast swings. Pre-strung and ready to play.",
+    "price": "1599.00",
+    "qoh": 60,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-06-badminton-racket.jpg"
+  },
+  {
+    "name": "Indoor-Outdoor Basketball (Size 7)",
+    "description": "Full-size 7 rubber basketball with deep channels and a tacky grip for sure handling. Built to last on both indoor courts and outdoor concrete.",
+    "price": "1399.00",
+    "qoh": 55,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-07-basketball.jpg"
+  },
+  {
+    "name": "Vinyl Kettlebell 6 kg",
+    "description": "Compact 6 kg vinyl-coated kettlebell with a smooth wide handle for swings, squats and full-body strength training. Floor-friendly coating protects surfaces.",
+    "price": "1099.00",
+    "qoh": 50,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-08-kettlebell.jpg"
+  },
+  {
+    "name": "Leather Boxing Gloves",
+    "description": "Durable leather boxing gloves with dense padding and a secure lace-up fit for sparring and bag work. Protects knuckles and wrists during training.",
+    "price": "1899.00",
+    "qoh": 45,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-09-boxing-gloves.jpg"
+  },
+  {
+    "name": "Aluminium Sports Water Bottle",
+    "description": "Lightweight 750 ml aluminium sports bottle with a leak-proof cap and a carabiner clip. Keeps you hydrated through workouts, cycling and trekking.",
+    "price": "599.00",
+    "qoh": 110,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-10-water-bottle.jpg"
+  },
+  {
+    "name": "Feather Shuttlecock",
+    "description": "Tournament-grade feather shuttlecock with a natural cork base for true flight and steady speed. Crafted for consistent play on the badminton court.",
+    "price": "799.00",
+    "qoh": 120,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-11-shuttlecock.jpg"
+  },
+  {
+    "name": "Leather Cricket Ball",
+    "description": "Hand-stitched red leather cricket ball with a raised seam and cork core for genuine bounce and swing. Made to match-standard specifications.",
+    "price": "699.00",
+    "qoh": 85,
+    "category": "SPORTS_EQUIPMENT",
+    "image": "sport-12-cricket-ball.jpg"
+  }
+]
