@@ -45,7 +45,6 @@ export default function App() {
       <div className="wrap">
         <footer className="footer">
           <span>🌿 everystore — made with care, 2026</span>
-          <span>Free shipping over ₹999</span>
         </footer>
       </div>
     </>

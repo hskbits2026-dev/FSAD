@@ -78,7 +78,7 @@ export default function Cart() {
             </div>
             <div className="line">
               <span>Shipping</span>
-              <span>Calculated at checkout</span>
+              <span>Free</span>
             </div>
             <div className="total">
               <span>Total</span>
