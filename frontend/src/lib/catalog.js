@@ -24,5 +24,5 @@ export function productInitial(name = '?') {
 }
 
 export function money(amount) {
-  return `$${Number(amount).toFixed(2)}`
+  return `₹${Number(amount).toFixed(2)}`
 }

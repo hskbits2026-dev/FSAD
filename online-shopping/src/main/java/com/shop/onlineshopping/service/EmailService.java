@@ -44,10 +44,10 @@ public class EmailService {
             sb.append("  - ")
                     .append(item.getProduct().getName())
                     .append(" x ").append(item.getQuantity())
-                    .append(" @ ").append(item.getPriceAtPurchase())
+                    .append(" @ ₹").append(item.getPriceAtPurchase())
                     .append("\n");
         }
-        sb.append("\nTotal: ").append(order.getTotalAmount()).append("\n");
+        sb.append("\nTotal: ₹").append(order.getTotalAmount()).append("\n");
         return sb.toString();
     }
 }

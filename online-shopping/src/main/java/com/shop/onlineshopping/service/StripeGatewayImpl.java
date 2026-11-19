@@ -40,7 +40,7 @@ public class StripeGatewayImpl implements StripeGateway {
             builder.addLineItem(SessionCreateParams.LineItem.builder()
                     .setQuantity((long) line.quantity())
                     .setPriceData(SessionCreateParams.LineItem.PriceData.builder()
-                            .setCurrency("usd")
+                            .setCurrency("inr")
                             .setUnitAmount(unitAmount)
                             .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder()
                                     .setName(line.name())

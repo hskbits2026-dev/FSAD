@@ -103,7 +103,7 @@ export default function ProductFormModal({ product, onSave, onClose, busy }) {
 
           <div className="form-row">
             <div className="field" style={{ flex: 1 }}>
-              <label>Price ($)</label>
+              <label>Price (₹)</label>
               <input type="number" step="0.01" min="0" value={form.price}
                 onChange={(e) => set('price', e.target.value)} />
             </div>
