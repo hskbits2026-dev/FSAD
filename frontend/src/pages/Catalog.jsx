@@ -3,7 +3,7 @@ import { api } from '../api/client'
 import ProductCard from '../components/ProductCard'
 import { CATEGORIES, categoryLabel } from '../lib/catalog'
 
-const PAGE_SIZE = 9
+const PAGE_SIZE = 15
 
 export default function Catalog() {
   const [category, setCategory] = useState(null) // null = "All"
