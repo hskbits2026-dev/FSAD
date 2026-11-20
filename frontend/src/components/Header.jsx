@@ -21,8 +21,8 @@ export default function Header() {
 
       <nav className="nav">
         <NavLink to="/">Shop</NavLink>
-        {isAuthenticated && <NavLink to="/orders">Orders</NavLink>}
-        {isAuthenticated && <NavLink to="/feedback">Feedback</NavLink>}
+        {isAuthenticated && !isAdmin && <NavLink to="/orders">Orders</NavLink>}
+        {isAuthenticated && !isAdmin && <NavLink to="/feedback">Feedback</NavLink>}
         {isAdmin && <NavLink to="/admin">Admin</NavLink>}
       </nav>
 

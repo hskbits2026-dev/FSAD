@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { api } from '../../api/client'
-import { categoryLabel, money } from '../../lib/catalog'
+import { categoryInfo, categoryLabel, CATEGORIES, money } from '../../lib/catalog'
 import ProductFormModal from './ProductFormModal'
 
 const PAGE_SIZE = 100 // admins want the whole catalogue in one view, not paged
@@ -15,6 +15,7 @@ export default function ProductManager() {
   const [error, setError] = useState('')
   const [modal, setModal] = useState(null) // null | { product?: {...} }
   const [busy, setBusy] = useState(false)
+  const [cat, setCat] = useState('ALL') // category filter
 
   const load = useCallback(() => {
     setLoading(true)
@@ -59,14 +60,27 @@ export default function ProductManager() {
     return <div className="state"><div className="spinner" />Loading products…</div>
   }
 
+  // Client-side category filter (the catalogue is small; no need for a server round-trip).
+  const shown = cat === 'ALL' ? products : products.filter((p) => p.category === cat)
+
   return (
     <div>
       <div className="panel-head">
         <div>
           <h2 style={{ fontSize: 26 }}>Products</h2>
-          <p className="muted" style={{ fontSize: 14 }}>{products.length} in catalogue</p>
+          <p className="muted" style={{ fontSize: 14 }}>
+            {shown.length} {cat === 'ALL' ? 'in catalogue' : `in ${categoryLabel(cat)}`}
+          </p>
         </div>
-        <button className="btn btn-terra" onClick={() => setModal({})}>+ Add product</button>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <select className="filter-select" value={cat} onChange={(e) => setCat(e.target.value)}>
+            <option value="ALL">All categories</option>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>{categoryLabel(c)}</option>
+            ))}
+          </select>
+          <button className="btn btn-terra" onClick={() => setModal({})}>+ Add product</button>
+        </div>
       </div>
 
       {error && <div className="alert alert-error">{error}</div>}
@@ -84,11 +98,13 @@ export default function ProductManager() {
             </tr>
           </thead>
           <tbody>
-            {products.map((p) => (
+            {shown.map((p) => {
+              const pill = categoryInfo(p.category).pill
+              return (
               <tr key={p.id}>
                 <td className="muted">{p.id}</td>
                 <td style={{ fontWeight: 700 }}>{p.name}</td>
-                <td><span className="cat-pill">{categoryLabel(p.category)}</span></td>
+                <td><span className="cat-pill" style={{ color: pill.fg, background: pill.bg }}>{categoryLabel(p.category)}</span></td>
                 <td className="num">{money(p.price)}</td>
                 <td className="num">
                   <span className={p.qoh === 0 ? 'stock-out' : ''}>{p.qoh}</span>
@@ -98,9 +114,10 @@ export default function ProductManager() {
                   <button className="link-btn danger" onClick={() => handleDelete(p)}>Delete</button>
                 </td>
               </tr>
-            ))}
-            {products.length === 0 && (
-              <tr><td colSpan={6} className="muted" style={{ textAlign: 'center', padding: 30 }}>No products yet.</td></tr>
+              )
+            })}
+            {shown.length === 0 && (
+              <tr><td colSpan={6} className="muted" style={{ textAlign: 'center', padding: 30 }}>No products in this category.</td></tr>
             )}
           </tbody>
         </table>

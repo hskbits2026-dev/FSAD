@@ -248,6 +248,17 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; line-hei
 .select:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(127, 143, 90, 0.15); }
 .form-row { display: flex; gap: 14px; }
 
+/* compact pill-shaped filter dropdown that lines up with the pill buttons beside it */
+.filter-select {
+  border: 1px solid var(--line); border-radius: 30px; background: #fff; color: var(--ink);
+  font-family: var(--font-body); font-weight: 700; font-size: 14.5px; padding: 11px 32px 11px 15px;
+  width: 168px; cursor: pointer; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%237a736a' stroke-width='1.6' d='M1 1.5 6 6.5 11 1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 16px center;
+}
+.filter-select:hover { border-color: var(--sage); }
+.filter-select:focus { outline: none; border-color: var(--sage); }
+
 /* modal */
 .modal-backdrop { position: fixed; inset: 0; background: rgba(58, 49, 40, 0.45); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 50; }
 .modal-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
