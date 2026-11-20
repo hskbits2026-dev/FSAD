@@ -7,6 +7,7 @@ import com.shop.onlineshopping.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +33,7 @@ import java.util.Base64;
  * admin uploads a picture — and store that in the product's {@code image} column.
  */
 @Component
+@Order(2) // run after AdminSeeder, before Customer/OrderSeeder
 public class ProductSeeder implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(ProductSeeder.class);

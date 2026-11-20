@@ -65,9 +65,9 @@ class ReportServiceTest {
     @Test
     void feedbackReport_computesAverageAndDistribution() {
         when(feedbackService.listAll()).thenReturn(List.of(
-                new FeedbackResponse(1L, "a@shop.com", "great", 5, Instant.now()),
-                new FeedbackResponse(2L, "b@shop.com", "ok", 3, Instant.now()),
-                new FeedbackResponse(3L, "c@shop.com", "great", 5, Instant.now())));
+                new FeedbackResponse(1L, "a@shop.com", "Alice", null, null, "great", 5, Instant.now()),
+                new FeedbackResponse(2L, "b@shop.com", "Bob", null, null, "ok", 3, Instant.now()),
+                new FeedbackResponse(3L, "c@shop.com", "Cara", 7L, "Widget", "great", 5, Instant.now())));
 
         FeedbackReportResponse report = reportService.feedbackReport();
 
@@ -75,7 +75,10 @@ class ReportServiceTest {
         assertThat(report.averageRating()).isEqualTo((5 + 3 + 5) / 3.0);
         assertThat(report.ratingCounts()).containsEntry(5, 2L).containsEntry(3, 1L)
                 .containsEntry(1, 0L).containsEntry(2, 0L).containsEntry(4, 0L);
-        assertThat(report.items()).hasSize(3);
+        // the two with no product are store feedback; the one tied to a product is a review
+        assertThat(report.storeFeedback()).hasSize(2);
+        assertThat(report.productReviews()).hasSize(1);
+        assertThat(report.productReviews().get(0).productName()).isEqualTo("Widget");
     }
 
     @Test
@@ -88,6 +91,7 @@ class ReportServiceTest {
         assertThat(report.averageRating()).isEqualTo(0.0);
         assertThat(report.ratingCounts()).containsOnlyKeys(1, 2, 3, 4, 5);
         assertThat(report.ratingCounts().values()).allMatch(v -> v == 0L);
-        assertThat(report.items()).isEmpty();
+        assertThat(report.storeFeedback()).isEmpty();
+        assertThat(report.productReviews()).isEmpty();
     }
 }

@@ -141,7 +141,9 @@ class ReportControllerTest {
                 .andExpect(jsonPath("$.averageRating").value(4.0))
                 .andExpect(jsonPath("$.ratingCounts.5").value(1))
                 .andExpect(jsonPath("$.ratingCounts.3").value(1))
-                .andExpect(jsonPath("$.items.length()").value(2));
+                // both seeded rows have no product → they're store feedback, not product reviews
+                .andExpect(jsonPath("$.storeFeedback.length()").value(2))
+                .andExpect(jsonPath("$.productReviews.length()").value(0));
     }
 
     @Test

@@ -57,7 +57,7 @@ class NotificationServiceTest {
 
     @Test
     void notifyNewFeedback_sendsToFeedbackTopic() {
-        FeedbackResponse fb = new FeedbackResponse(9L, "buyer@shop.com", "Nice", 5, Instant.now());
+        FeedbackResponse fb = new FeedbackResponse(9L, "buyer@shop.com", "Buyer", null, null, "Nice", 5, Instant.now());
         service.notifyNewFeedback(fb);
         verify(template).convertAndSend("/topic/admin/feedback", fb);
     }
@@ -88,7 +88,7 @@ class NotificationServiceTest {
                 .when(template).convertAndSend(any(String.class), any(Object.class));
         assertThatCode(() -> service.notifyNewOrder(order())).doesNotThrowAnyException();
         assertThatCode(() -> service.notifyNewFeedback(
-                new FeedbackResponse(1L, "a@b.com", "m", 3, Instant.now()))).doesNotThrowAnyException();
+                new FeedbackResponse(1L, "a@b.com", "A", null, null, "m", 3, Instant.now()))).doesNotThrowAnyException();
         assertThatCode(() -> service.notifyLowStockIfCrossed(product(1), 6)).doesNotThrowAnyException();
     }
 

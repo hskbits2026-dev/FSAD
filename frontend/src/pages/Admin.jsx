@@ -5,11 +5,13 @@
 import { useState } from 'react'
 import ProductManager from '../components/admin/ProductManager'
 import ReportsPanel from '../components/admin/ReportsPanel'
+import CustomersPanel from '../components/admin/CustomersPanel'
 import LiveFeed from '../components/admin/LiveFeed'
 
 const TABS = [
   { key: 'products', label: 'Products' },
   { key: 'reports', label: 'Reports' },
+  { key: 'customers', label: 'Customers' },
   { key: 'live', label: 'Live' },
 ]
 
@@ -35,6 +37,7 @@ export default function Admin() {
       <section style={{ paddingBottom: 80 }}>
         {tab === 'products' && <ProductManager />}
         {tab === 'reports' && <ReportsPanel />}
+        {tab === 'customers' && <CustomersPanel />}
         {tab === 'live' && <LiveFeed />}
       </section>
     </main>

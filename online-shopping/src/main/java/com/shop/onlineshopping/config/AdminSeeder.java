@@ -5,10 +5,12 @@ import com.shop.onlineshopping.entity.User;
 import com.shop.onlineshopping.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(1) // run first: nothing depends on order, but keep the seeder sequence explicit
 public class AdminSeeder implements CommandLineRunner {
 
     private final UserRepository userRepository;

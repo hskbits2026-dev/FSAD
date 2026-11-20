@@ -29,6 +29,16 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
+    /**
+     * Soft-delete flag. Deliberately NOT {@code nullable = false}: this column is being added
+     * to a table that already has rows, and a NOT NULL add could fail or junk-fill those old
+     * rows. New accounts always get a value (default below); old rows start as NULL and are
+     * backfilled to ACTIVE by CustomerSeeder on the next startup. Anything reading this should
+     * treat NULL as ACTIVE.
+     */
+    @Enumerated(EnumType.STRING)
+    private UserStatus status = UserStatus.ACTIVE;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 }

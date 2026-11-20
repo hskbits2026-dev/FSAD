@@ -57,6 +57,14 @@ public class ReportService {
         for (FeedbackResponse item : items) {
             ratingCounts.merge(item.rating(), 1L, Long::sum);
         }
-        return new FeedbackReportResponse(totalCount, averageRating, ratingCounts, items);
+        // Split the two kinds so the dashboard can present them under clear, separate headings.
+        List<FeedbackResponse> storeFeedback = items.stream()
+                .filter(f -> f.productId() == null)
+                .toList();
+        List<FeedbackResponse> productReviews = items.stream()
+                .filter(f -> f.productId() != null)
+                .toList();
+        return new FeedbackReportResponse(totalCount, averageRating, ratingCounts,
+                storeFeedback, productReviews);
     }
 }
