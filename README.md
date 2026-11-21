@@ -104,3 +104,6 @@ npm run lint       # static checks (oxlint)
 > The **Admin** link in the header (dashboard, product CRUD, reports, live feed) only appears when
 > you are logged in as the admin account.
 
+### Stripe logins
+stripe login          # once, opens browser to authorize
+stripe listen --forward-to localhost:8081/api/stripe/webhook
