@@ -153,6 +153,14 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; line-hei
   font-family: var(--font-body); font-size: 15px; background: #fff; color: var(--ink); transition: 0.2s;
 }
 .field input:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(127, 143, 90, 0.15); }
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 46px; }
+.password-toggle {
+  position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
+  display: flex; align-items: center; justify-content: center; padding: 6px;
+  background: none; border: none; cursor: pointer; color: var(--soft); border-radius: var(--radius-sm);
+}
+.password-toggle:hover { color: var(--ink); }
 .swap { margin-top: 20px; font-size: 14px; color: var(--soft); text-align: center; }
 .swap a { color: var(--terra); font-weight: 700; }
 
