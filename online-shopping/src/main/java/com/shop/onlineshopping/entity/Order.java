@@ -36,6 +36,20 @@ public class Order {
     @Column(unique = true)
     private String stripeSessionId;
 
+    /*
+     * Delivery address SNAPSHOT, copied from the customer's chosen Address at checkout time.
+     * We copy the values (not a foreign key) on purpose: if the customer later edits or deletes
+     * that address, this order must still show where it was actually shipped. All nullable so
+     * orders created before this feature are unaffected.
+     */
+    private String shipRecipient;
+    private String shipPhone;
+    private String shipLine1;
+    private String shipLine2;
+    private String shipCity;
+    private String shipState;
+    private String shipPincode;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 }

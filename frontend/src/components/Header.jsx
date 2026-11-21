@@ -22,6 +22,7 @@ export default function Header() {
       <nav className="nav">
         <NavLink to="/">Shop</NavLink>
         {isAuthenticated && !isAdmin && <NavLink to="/orders">Orders</NavLink>}
+        {isAuthenticated && !isAdmin && <NavLink to="/wishlist">Wishlist</NavLink>}
         {isAuthenticated && !isAdmin && <NavLink to="/feedback">Feedback</NavLink>}
         {isAdmin && <NavLink to="/admin">Admin</NavLink>}
       </nav>
@@ -29,9 +30,15 @@ export default function Header() {
       <div className="header-right">
         {isAuthenticated ? (
           <>
-            <span className="muted" style={{ fontSize: 13.5, fontWeight: 600 }}>
-              {email}
-            </span>
+            {!isAdmin ? (
+              <NavLink to="/profile" className="muted" style={{ fontSize: 13.5, fontWeight: 600 }}>
+                {email}
+              </NavLink>
+            ) : (
+              <span className="muted" style={{ fontSize: 13.5, fontWeight: 600 }}>
+                {email}
+              </span>
+            )}
             <NavLink to="/cart" className="btn btn-ghost cart-link">
               Cart
               {count > 0 && <span className="cart-count">{count}</span>}

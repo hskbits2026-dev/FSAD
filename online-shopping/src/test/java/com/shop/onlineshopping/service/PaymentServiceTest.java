@@ -1,6 +1,7 @@
 package com.shop.onlineshopping.service;
 
 import com.shop.onlineshopping.dto.CheckoutResponse;
+import com.shop.onlineshopping.entity.Address;
 import com.shop.onlineshopping.entity.Cart;
 import com.shop.onlineshopping.entity.CartItem;
 import com.shop.onlineshopping.entity.OrderStatus;
@@ -9,6 +10,7 @@ import com.shop.onlineshopping.entity.User;
 import com.shop.onlineshopping.exception.EmptyCartException;
 import com.shop.onlineshopping.exception.InsufficientStockException;
 import com.shop.onlineshopping.entity.Order;
+import com.shop.onlineshopping.repository.AddressRepository;
 import com.shop.onlineshopping.repository.CartRepository;
 import com.shop.onlineshopping.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,7 @@ class PaymentServiceTest {
 
     @Mock CartRepository cartRepository;
     @Mock OrderRepository orderRepository;
+    @Mock AddressRepository addressRepository;
     @Mock StripeGateway stripeGateway;
     @InjectMocks PaymentService paymentService;
 
@@ -41,6 +44,19 @@ class PaymentServiceTest {
         u.setId(1L);
         u.setEmail("buyer@shop.com");
         return u;
+    }
+
+    private Address address(User user) {
+        Address a = new Address();
+        a.setId(7L);
+        a.setUser(user);
+        a.setRecipientName("Aarav");
+        a.setPhone("9876543210");
+        a.setLine1("12 MG Rd");
+        a.setCity("Bengaluru");
+        a.setState("Karnataka");
+        a.setPincode("560001");
+        return a;
     }
 
     private Cart cartWith(User user, int productQoh, int quantity) {
@@ -66,6 +82,7 @@ class PaymentServiceTest {
     void createCheckout_happyPath_savesPendingOrderAndReturnsUrl() {
         User user = user();
         when(cartRepository.findByUser(user)).thenReturn(Optional.of(cartWith(user, 5, 2)));
+        when(addressRepository.findByIdAndUser(7L, user)).thenReturn(Optional.of(address(user)));
         when(orderRepository.save(any(Order.class))).thenAnswer(inv -> {
             Order o = inv.getArgument(0);
             if (o.getId() == null) o.setId(100L);
@@ -74,7 +91,7 @@ class PaymentServiceTest {
         when(stripeGateway.createCheckoutSession(any()))
                 .thenReturn(new StripeGateway.StripeSession("cs_test_1", "https://checkout.stripe/pay"));
 
-        CheckoutResponse response = paymentService.createCheckout(user);
+        CheckoutResponse response = paymentService.createCheckout(user, 7L);
 
         assertThat(response.orderId()).isEqualTo(100L);
         assertThat(response.checkoutUrl()).isEqualTo("https://checkout.stripe/pay");
@@ -87,6 +104,8 @@ class PaymentServiceTest {
         assertThat(saved.getTotalAmount()).isEqualByComparingTo("1999.98");
         assertThat(saved.getItems()).hasSize(1);
         assertThat(saved.getItems().get(0).getPriceAtPurchase()).isEqualByComparingTo("999.99");
+        assertThat(saved.getShipLine1()).isEqualTo("12 MG Rd");
+        assertThat(saved.getShipPincode()).isEqualTo("560001");
     }
 
     @Test
@@ -96,7 +115,7 @@ class PaymentServiceTest {
         empty.setUser(user);
         when(cartRepository.findByUser(user)).thenReturn(Optional.of(empty));
 
-        assertThatThrownBy(() -> paymentService.createCheckout(user))
+        assertThatThrownBy(() -> paymentService.createCheckout(user, 7L))
                 .isInstanceOf(EmptyCartException.class);
         verifyNoInteractions(stripeGateway);
     }
@@ -106,7 +125,7 @@ class PaymentServiceTest {
         User user = user();
         when(cartRepository.findByUser(user)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> paymentService.createCheckout(user))
+        assertThatThrownBy(() -> paymentService.createCheckout(user, 7L))
                 .isInstanceOf(EmptyCartException.class);
         verifyNoInteractions(stripeGateway);
     }
@@ -116,7 +135,7 @@ class PaymentServiceTest {
         User user = user();
         when(cartRepository.findByUser(user)).thenReturn(Optional.of(cartWith(user, 1, 5)));
 
-        assertThatThrownBy(() -> paymentService.createCheckout(user))
+        assertThatThrownBy(() -> paymentService.createCheckout(user, 7L))
                 .isInstanceOf(InsufficientStockException.class);
         verifyNoInteractions(stripeGateway);
     }

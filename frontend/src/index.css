@@ -122,6 +122,12 @@ h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.02em; line-hei
   font-size: 16px; color: var(--terra); cursor: pointer; transition: 0.2s; border: none;
 }
 .fav:hover { transform: scale(1.12); }
+/* Favourited: filled heart, stronger colour so it reads as "on" at a glance. */
+.fav.on { color: var(--terra-dk); font-size: 18px; }
+.fav.on:hover { color: var(--danger); }
+/* Inline text-style action button (Edit / Delete / Make default on the profile page). */
+.link-btn { background: none; border: none; padding: 0; font-weight: 700; font-size: 13.5px; color: var(--sage); cursor: pointer; }
+.link-btn:hover { text-decoration: underline; }
 /* Product photo fills the square thumb; .thumb already clips with overflow:hidden + radius */
 .thumb-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 /* Admin form image picker: small preview next to a remove button */

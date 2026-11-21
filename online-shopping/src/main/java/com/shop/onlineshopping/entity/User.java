@@ -25,6 +25,13 @@ public class User {
     @Column(nullable = false)
     private String fullName;
 
+    /**
+     * Customer's phone number. Deliberately NOT {@code nullable = false}: like {@code status},
+     * this column is added to a table that already has rows, so a NOT NULL add could fail. New
+     * profiles set it via Edit Profile; old rows start NULL and are backfilled by CustomerSeeder.
+     */
+    private String phone;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../api/client'
 import { useCart } from '../context/CartContext'
+import { useFavourites } from '../context/FavouritesContext'
 import { useAuth } from '../context/AuthContext'
 import FeedbackForm from '../components/FeedbackForm'
 import { categoryInfo, categoryLabel, money, productInitial } from '../lib/catalog'
@@ -10,6 +11,7 @@ export default function ProductDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { addItem } = useCart()
+  const { isFavourite, toggle } = useFavourites()
   const { isAuthenticated } = useAuth()
 
   const [product, setProduct] = useState(null)
@@ -71,6 +73,18 @@ export default function ProductDetail() {
     }
   }
 
+  async function handleFav() {
+    if (!isAuthenticated) {
+      navigate('/login', { state: { from: `/products/${id}` } })
+      return
+    }
+    try {
+      await toggle(product.id)
+    } catch (e) {
+      setError(e.message)
+    }
+  }
+
   if (loading) {
     return (
       <main className="wrap">
@@ -118,7 +132,20 @@ export default function ProductDetail() {
           <div className="cat" style={{ color: 'var(--sage)', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', fontSize: 12 }}>
             {categoryLabel(product.category)}
           </div>
-          <h1 style={{ fontSize: 40, margin: '8px 0 14px' }}>{product.name}</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, margin: '8px 0 14px' }}>
+            <h1 style={{ fontSize: 40, margin: 0 }}>{product.name}</h1>
+            <button
+              type="button"
+              className={`fav${isFavourite(product.id) ? ' on' : ''}`}
+              onClick={handleFav}
+              aria-pressed={isFavourite(product.id)}
+              aria-label={isFavourite(product.id) ? 'Remove from favourites' : 'Add to favourites'}
+              title={isFavourite(product.id) ? 'Remove from favourites' : 'Add to favourites'}
+              style={{ position: 'static' }}
+            >
+              {isFavourite(product.id) ? '♥' : '♡'}
+            </button>
+          </div>
           <div className="pr" style={{ fontSize: 28, fontWeight: 800 }}>{money(product.price)}</div>
           <p className="lede" style={{ marginTop: 18 }}>{product.description || 'No description provided.'}</p>
 

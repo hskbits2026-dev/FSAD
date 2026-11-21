@@ -1,8 +1,10 @@
 package com.shop.onlineshopping.config;
 
+import com.shop.onlineshopping.entity.Address;
 import com.shop.onlineshopping.entity.Role;
 import com.shop.onlineshopping.entity.User;
 import com.shop.onlineshopping.entity.UserStatus;
+import com.shop.onlineshopping.repository.AddressRepository;
 import com.shop.onlineshopping.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,10 +45,13 @@ public class CustomerSeeder implements CommandLineRunner {
             "user21449@demo.com", "user30962@demo.com");
 
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public CustomerSeeder(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public CustomerSeeder(UserRepository userRepository, AddressRepository addressRepository,
+                          PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -55,6 +60,7 @@ public class CustomerSeeder implements CommandLineRunner {
         backfillNullStatus();
         retireJunkAccounts();
         seedRealisticCustomer("Aarav Sharma", "aarav.sharma@gmail.com", "Aarav@123");
+        seedContactAndAddresses();
     }
 
     /** Any customer row with no status yet (added before the column existed) → ACTIVE. */
@@ -99,5 +105,62 @@ public class CustomerSeeder implements CommandLineRunner {
         u.setStatus(UserStatus.ACTIVE);
         userRepository.save(u);
         log.info("Seeded demo customer {} <{}>.", fullName, email);
+    }
+
+    /**
+     * Give every ACTIVE customer a demo phone (if missing) and two sample addresses (if they have
+     * none), so the new profile/checkout/admin features have data to show. Idempotent: a customer
+     * who already has a phone keeps it, and one who already has any address gets no new ones.
+     */
+    private void seedContactAndAddresses() {
+        // A small pool of realistic Indian addresses; each customer gets a deterministic slice.
+        String[][] pool = {
+                {"Home", "12, 2nd Cross, Indiranagar", "Bengaluru", "Karnataka", "560038"},
+                {"Work", "4th Floor, Prestige Tower, MG Road", "Bengaluru", "Karnataka", "560001"},
+                {"Home", "7, Carter Road, Bandra West", "Mumbai", "Maharashtra", "400050"},
+                {"Office", "Cyber Hub, DLF Phase 2", "Gurugram", "Haryana", "122002"},
+                {"Home", "22, Park Street", "Kolkata", "West Bengal", "700016"},
+                {"Home", "9, Anna Nagar East", "Chennai", "Tamil Nadu", "600102"},
+        };
+
+        List<User> customers = userRepository.findByRoleOrderByCreatedAtAsc(Role.CUSTOMER);
+        long phoneSeed = 9800000000L;
+        int idx = 0;
+        for (User u : customers) {
+            if (u.getStatus() == UserStatus.INACTIVE) {
+                continue; // leave retired accounts alone
+            }
+            boolean changed = false;
+            if (u.getPhone() == null || u.getPhone().isBlank()) {
+                u.setPhone(String.valueOf(phoneSeed + u.getId())); // deterministic 10-digit number
+                changed = true;
+            }
+            if (changed) {
+                userRepository.save(u);
+            }
+
+            if (addressRepository.findByUserOrderByIsDefaultDescIdAsc(u).isEmpty()) {
+                String[] a1 = pool[idx % pool.length];
+                String[] a2 = pool[(idx + 1) % pool.length];
+                addressRepository.save(buildAddress(u, a1, u.getFullName(), u.getPhone(), true));
+                addressRepository.save(buildAddress(u, a2, u.getFullName(), u.getPhone(), false));
+                log.info("Seeded 2 demo addresses for customer {} <{}>.", u.getFullName(), u.getEmail());
+            }
+            idx++;
+        }
+    }
+
+    private Address buildAddress(User user, String[] data, String recipient, String phone, boolean isDefault) {
+        Address a = new Address();
+        a.setUser(user);
+        a.setLabel(data[0]);
+        a.setRecipientName(recipient);
+        a.setPhone(phone);
+        a.setLine1(data[1]);
+        a.setCity(data[2]);
+        a.setState(data[3]);
+        a.setPincode(data[4]);
+        a.setDefault(isDefault);
+        return a;
     }
 }

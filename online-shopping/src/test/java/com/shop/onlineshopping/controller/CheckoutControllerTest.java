@@ -1,10 +1,12 @@
 package com.shop.onlineshopping.controller;
 
 import com.shop.onlineshopping.dto.AddCartItemRequest;
+import com.shop.onlineshopping.entity.Address;
 import com.shop.onlineshopping.entity.Category;
 import com.shop.onlineshopping.entity.Product;
 import com.shop.onlineshopping.entity.Role;
 import com.shop.onlineshopping.entity.User;
+import com.shop.onlineshopping.repository.AddressRepository;
 import com.shop.onlineshopping.repository.CartItemRepository;
 import com.shop.onlineshopping.repository.CartRepository;
 import com.shop.onlineshopping.repository.OrderRepository;
@@ -19,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -43,6 +46,7 @@ class CheckoutControllerTest {
     @Autowired CartRepository cartRepository;
     @Autowired CartItemRepository cartItemRepository;
     @Autowired OrderRepository orderRepository;
+    @Autowired AddressRepository addressRepository;
     @Autowired CartService cartService;
     @Autowired JwtService jwtService;
 
@@ -50,6 +54,7 @@ class CheckoutControllerTest {
 
     private User customer;
     private Product product;
+    private Address address;
     private String customerToken;
 
     @BeforeEach
@@ -57,11 +62,13 @@ class CheckoutControllerTest {
         orderRepository.deleteAll();
         cartItemRepository.deleteAll();
         cartRepository.deleteAll();
+        addressRepository.deleteAll();
         productRepository.deleteAll();
         userRepository.deleteAll();
 
         customer = newUser("checkout@shop.com");
         product = newProduct(5);
+        address = newAddress(customer);
         customerToken = jwtService.generateToken(customer);
     }
 
@@ -70,6 +77,7 @@ class CheckoutControllerTest {
         orderRepository.deleteAll();
         cartItemRepository.deleteAll();
         cartRepository.deleteAll();
+        addressRepository.deleteAll();
         productRepository.deleteAll();
         userRepository.deleteAll();
     }
@@ -81,6 +89,24 @@ class CheckoutControllerTest {
         u.setFullName("Buyer");
         u.setRole(Role.CUSTOMER);
         return userRepository.save(u);
+    }
+
+    private Address newAddress(User user) {
+        Address a = new Address();
+        a.setUser(user);
+        a.setLabel("Home");
+        a.setRecipientName("Buyer");
+        a.setPhone("9876543210");
+        a.setLine1("12 MG Rd");
+        a.setCity("Bengaluru");
+        a.setState("Karnataka");
+        a.setPincode("560001");
+        a.setDefault(true);
+        return addressRepository.save(a);
+    }
+
+    private String body() {
+        return "{\"addressId\":" + address.getId() + "}";
     }
 
     private Product newProduct(int qoh) {
@@ -99,7 +125,8 @@ class CheckoutControllerTest {
         when(stripeGateway.createCheckoutSession(any()))
                 .thenReturn(new StripeGateway.StripeSession("cs_test_ok", "https://checkout.stripe/pay"));
 
-        mockMvc.perform(post("/api/checkout").header("Authorization", "Bearer " + customerToken))
+        mockMvc.perform(post("/api/checkout").header("Authorization", "Bearer " + customerToken)
+                        .contentType(MediaType.APPLICATION_JSON).content(body()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.orderId").exists())
                 .andExpect(jsonPath("$.checkoutUrl").value("https://checkout.stripe/pay"));
@@ -109,7 +136,8 @@ class CheckoutControllerTest {
     void checkout_emptyCart_returns400AndNoOrderNoSession() throws Exception {
         cartService.getCart(customer); // creates an empty cart
 
-        mockMvc.perform(post("/api/checkout").header("Authorization", "Bearer " + customerToken))
+        mockMvc.perform(post("/api/checkout").header("Authorization", "Bearer " + customerToken)
+                        .contentType(MediaType.APPLICATION_JSON).content(body()))
                 .andExpect(status().isBadRequest());
 
         org.assertj.core.api.Assertions.assertThat(orderRepository.count()).isZero();
@@ -120,10 +148,22 @@ class CheckoutControllerTest {
     void checkout_quantityExceedsStock_returns409AndNoOrderNoSession() throws Exception {
         cartService.addItem(customer, new AddCartItemRequest(product.getId(), 10)); // qoh is 5
 
-        mockMvc.perform(post("/api/checkout").header("Authorization", "Bearer " + customerToken))
+        mockMvc.perform(post("/api/checkout").header("Authorization", "Bearer " + customerToken)
+                        .contentType(MediaType.APPLICATION_JSON).content(body()))
                 .andExpect(status().isConflict());
 
         org.assertj.core.api.Assertions.assertThat(orderRepository.count()).isZero();
+        verifyNoInteractions(stripeGateway);
+    }
+
+    @Test
+    void checkout_missingAddress_returns400() throws Exception {
+        cartService.addItem(customer, new AddCartItemRequest(product.getId(), 1));
+
+        mockMvc.perform(post("/api/checkout").header("Authorization", "Bearer " + customerToken)
+                        .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isBadRequest());
+
         verifyNoInteractions(stripeGateway);
     }
 

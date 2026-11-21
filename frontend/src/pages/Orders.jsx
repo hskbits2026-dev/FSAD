@@ -86,6 +86,13 @@ export default function Orders() {
                   </div>
                 ))}
               </div>
+              {o.shippingAddress && (
+                <div className="muted" style={{ fontSize: 13, marginTop: 10 }}>
+                  <strong style={{ color: 'var(--soft)' }}>Delivered to:</strong>{' '}
+                  {o.shippingAddress.recipientName}, {o.shippingAddress.line1}
+                  {o.shippingAddress.line2 ? `, ${o.shippingAddress.line2}` : ''}, {o.shippingAddress.city}, {o.shippingAddress.state} — {o.shippingAddress.pincode}
+                </div>
+              )}
               <div className="order-foot">
                 <span className="muted" style={{ fontWeight: 600 }}>Total</span>
                 <span style={{ fontWeight: 800, fontSize: 18 }}>{money(o.totalAmount)}</span>

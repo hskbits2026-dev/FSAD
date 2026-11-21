@@ -10,6 +10,8 @@ import CheckoutSuccess from './pages/CheckoutSuccess'
 import CheckoutCancel from './pages/CheckoutCancel'
 import Orders from './pages/Orders'
 import Feedback from './pages/Feedback'
+import Wishlist from './pages/Wishlist'
+import Profile from './pages/Profile'
 import Admin from './pages/Admin'
 
 export default function App() {
@@ -30,6 +32,8 @@ export default function App() {
         <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
         <Route path="/feedback" element={<ProtectedRoute><Feedback /></ProtectedRoute>} />
+        <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
 
         {/* Admin-only dashboard (ProtectedRoute bounces non-admins back to /) */}
         <Route path="/admin" element={<ProtectedRoute adminOnly><Admin /></ProtectedRoute>} />

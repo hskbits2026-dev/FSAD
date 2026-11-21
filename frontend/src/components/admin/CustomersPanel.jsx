@@ -76,6 +76,8 @@ export default function CustomersPanel() {
               <th>#</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
+              <th>Addresses</th>
               <th>Status</th>
               <th>Joined</th>
               <th className="num">Orders</th>
@@ -88,6 +90,28 @@ export default function CustomersPanel() {
                 <td className="muted">{c.id}</td>
                 <td style={{ fontWeight: 700 }}>{c.fullName}</td>
                 <td className="muted">{c.email}</td>
+                <td className="muted">{c.phone || '—'}</td>
+                <td>
+                  {(c.addresses?.length ?? 0) === 0 ? (
+                    <span className="muted">—</span>
+                  ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxWidth: 320 }}>
+                      {c.addresses.map((a) => (
+                        <div key={a.id} style={{ fontSize: 13 }}>
+                          <span style={{ fontWeight: 700 }}>{a.label}</span>
+                          {a.isDefault && (
+                            <span className="badge badge-paid" style={{ marginLeft: 6, fontSize: 10, padding: '2px 8px' }}>
+                              Default
+                            </span>
+                          )}
+                          <div className="muted">
+                            {a.line1}{a.line2 ? `, ${a.line2}` : ''}, {a.city}, {a.state} — {a.pincode}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </td>
                 <td>
                   <span className={`badge ${c.status === 'ACTIVE' ? 'badge-paid' : 'badge-cancelled'}`}>
                     {c.status === 'ACTIVE' ? 'Active' : 'Inactive'}
@@ -99,7 +123,7 @@ export default function CustomersPanel() {
               </tr>
             ))}
             {customers.length === 0 && (
-              <tr><td colSpan={7} className="muted" style={{ textAlign: 'center', padding: 30 }}>No customers yet.</td></tr>
+              <tr><td colSpan={9} className="muted" style={{ textAlign: 'center', padding: 30 }}>No customers yet.</td></tr>
             )}
           </tbody>
         </table>

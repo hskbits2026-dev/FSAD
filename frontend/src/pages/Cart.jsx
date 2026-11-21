@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client'
 import { useCart } from '../context/CartContext'
@@ -9,12 +9,40 @@ export default function Cart() {
   const [checkingOut, setCheckingOut] = useState(false)
   const [error, setError] = useState('')
 
+  // Saved delivery addresses + which one is selected. Loaded on mount so the customer can
+  // pick where this order ships. Checkout is blocked until an address is chosen.
+  const [addresses, setAddresses] = useState([])
+  const [addrLoading, setAddrLoading] = useState(true)
+  const [selectedId, setSelectedId] = useState(null)
+
+  useEffect(() => {
+    let active = true
+    api
+      .get('/api/addresses')
+      .then((list) => {
+        if (!active) return
+        setAddresses(list)
+        // Default to the customer's default address (list is default-first from the backend).
+        const preferred = list.find((a) => a.isDefault) ?? list[0]
+        if (preferred) setSelectedId(preferred.id)
+      })
+      .catch((e) => active && setError(e.message))
+      .finally(() => active && setAddrLoading(false))
+    return () => {
+      active = false
+    }
+  }, [])
+
   async function handleCheckout() {
+    if (!selectedId) {
+      setError('Please select a delivery address.')
+      return
+    }
     setCheckingOut(true)
     setError('')
     try {
-      // Backend creates a Stripe Checkout session and returns its hosted URL.
-      const res = await api.post('/api/checkout')
+      // Backend creates a Stripe Checkout session, snapshotting the chosen address onto the order.
+      const res = await api.post('/api/checkout', { addressId: selectedId })
       window.location.href = res.checkoutUrl // hand off to Stripe's payment page
     } catch (e) {
       setError(e.message)
@@ -72,13 +100,38 @@ export default function Cart() {
 
           <aside className="summary">
             <h3>Order summary</h3>
+
+            {/* ---- Delivery address ---- */}
+            <div style={{ marginBottom: 16 }}>
+              <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: 'var(--soft)', marginBottom: 7 }}>
+                Deliver to
+              </label>
+              {addrLoading ? (
+                <p className="muted" style={{ fontSize: 14 }}>Loading addresses…</p>
+              ) : addresses.length === 0 ? (
+                <div className="alert alert-error" style={{ fontSize: 14 }}>
+                  No saved address. <Link to="/profile" style={{ fontWeight: 700 }}>Add one in your profile</Link> to check out.
+                </div>
+              ) : (
+                <>
+                  <select className="select" value={selectedId ?? ''}
+                    onChange={(e) => setSelectedId(Number(e.target.value))}>
+                    {addresses.map((a) => (
+                      <option key={a.id} value={a.id}>
+                        {a.label} — {a.line1}, {a.city} {a.isDefault ? '(default)' : ''}
+                      </option>
+                    ))}
+                  </select>
+                  <Link to="/profile" className="muted" style={{ fontSize: 12.5, fontWeight: 600, display: 'inline-block', marginTop: 8 }}>
+                    Manage addresses
+                  </Link>
+                </>
+              )}
+            </div>
+
             <div className="line">
               <span>Items</span>
               <span>{items.reduce((s, i) => s + i.quantity, 0)}</span>
-            </div>
-            <div className="line">
-              <span>Shipping</span>
-              <span>Free</span>
             </div>
             <div className="total">
               <span>Total</span>
@@ -87,7 +140,8 @@ export default function Cart() {
 
             {error && <div className="alert alert-error">{error}</div>}
 
-            <button className="btn btn-terra btn-block" style={{ marginTop: 18 }} onClick={handleCheckout} disabled={checkingOut}>
+            <button className="btn btn-terra btn-block" style={{ marginTop: 18 }}
+              onClick={handleCheckout} disabled={checkingOut || !selectedId}>
               {checkingOut ? 'Redirecting…' : 'Proceed to checkout'}
             </button>
             <p className="muted" style={{ fontSize: 12.5, marginTop: 10, textAlign: 'center' }}>

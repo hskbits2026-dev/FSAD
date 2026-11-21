@@ -5,15 +5,19 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import { CartProvider } from './context/CartContext.jsx'
+import { FavouritesProvider } from './context/FavouritesContext.jsx'
 
-// Providers wrap the whole app so any page can read the logged-in user (AuthProvider)
-// and the current cart (CartProvider). BrowserRouter turns URLs into page changes.
+// Providers wrap the whole app so any page can read the logged-in user (AuthProvider),
+// the current cart (CartProvider) and the wishlist (FavouritesProvider). BrowserRouter
+// turns URLs into page changes.
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <App />
+          <FavouritesProvider>
+            <App />
+          </FavouritesProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>
