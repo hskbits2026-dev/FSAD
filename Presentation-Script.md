@@ -7,8 +7,8 @@
 
 | Item | Detail |
 |---|---|
-| **Slides** | 10 |
-| **PPT target** | ~12 minutes |
+| **Slides** | 11 |
+| **PPT target** | ~10–11 minutes |
 | **Live demo** | ~10 minutes |
 | **Q&A** | ~8 minutes |
 | **Total session** | ~30 minutes |
@@ -23,18 +23,19 @@
 
 | Slide | Topic | Target |
 |---|---|---:|
-| 1 | Title | 25 sec |
-| 2 | Introduction | 1 min |
-| 3 | Problem & Objectives | 1 min |
-| 4 | Proposed Solution | 1 min |
-| 5 | System Architecture *(diagram)* | 2 min 30 sec |
-| 6 | Technologies Used | 45 sec |
-| 7 | Application Modules | 1 min 30 sec |
-| 8 | Users & Workflow *(diagram)* | 2 min |
-| 9 | Data Model *(diagram)* | 1 min 30 sec |
-| 10 | Conclusion | 30 sec |
-| — | Natural pauses & transitions | ~30 sec |
-| **Total** | | **~11 min 45 sec** |
+| 1 | Title | 20 sec |
+| 2 | Introduction | 50 sec |
+| 3 | Problem & Objectives | 55 sec |
+| 4 | Proposed Solution | 50 sec |
+| 5 | System Architecture *(diagram)* | 1 min 50 sec |
+| 6 | Technologies Used | 40 sec |
+| 7 | Application Modules | 1 min 10 sec |
+| 8 | Testing | 50 sec |
+| 9 | Users & Workflow *(diagram)* | 1 min 30 sec |
+| 10 | Data Model *(diagram)* | 1 min |
+| 11 | Conclusion | 25 sec |
+| — | Natural pauses & transitions | ~25 sec |
+| **Total** | | **~10 min 45 sec** |
 
 ---
 
@@ -186,8 +187,21 @@ The **Checkout and Payment module** is the central hub. It's the only point wher
 
 ---
 
-### Slide 8 — Users & Workflow
-**Target: 2 minutes**
+### Slide 8 — Testing
+**Target: 50 seconds**
+
+"One thing worth highlighting is how we tested the system.
+
+We have four layers of testing. **Unit tests** cover service-layer business logic using Mockito — repositories, Stripe, and email are all mocked, so there's no Spring context or database involved. **Controller tests** use MockMvc to test every HTTP endpoint: they verify status codes, authentication enforcement, and request validation, with the service layer mocked. **Repository tests** run against H2, an in-memory database in MySQL compatibility mode — they verify our custom JPA queries, relationships, and constraints with no external MySQL required. And finally, an **integration test** starts the full application on a live port and makes a real WebSocket connection to verify the STOMP authentication and admin topic subscription end to end.
+
+Across all four layers there are roughly 42 test files, and the entire test suite runs with zero external services — MySQL is replaced by H2, Stripe and Mailtrap are mocked."
+
+> *Advance to Slide 9.*
+
+---
+
+### Slide 9 — Users & Workflow
+**Target: 1 minute 30 seconds**
 
 > *Walk through the diagram from top to bottom. Point to each decision node and flow path as you describe it.*
 
@@ -219,12 +233,12 @@ Notice that the Orders page and the Wishlist and Profile pages are only accessib
 
 **The header navigation** is persistent on every page and renders differently by role — customers see Shop, Orders, Wishlist, Feedback, and a profile link. Admins see Shop and Admin. Unauthenticated visitors see only Shop and the login/signup links."
 
-> *Advance to Slide 9.*
+> *Advance to Slide 10.*
 
 ---
 
-### Slide 9 — Data Model
-**Target: 1 minute 30 seconds**
+### Slide 10 — Data Model
+**Target: 1 minute**
 
 > *Walk the ER diagram from the central entities outward, then highlight the key design decisions.*
 
@@ -254,12 +268,12 @@ Notice that the Orders page and the Wishlist and Profile pages are only accessib
 
 **FEEDBACK** serves dual purpose. When `product_id` is null, it's a general site feedback submission. When `product_id` has a value, it's a product review for that specific product. One table, two use cases, no duplication."
 
-> *Advance to Slide 10.*
+> *Advance to Slide 11.*
 
 ---
 
-### Slide 10 — Conclusion
-**Target: 30 seconds**
+### Slide 11 — Conclusion
+**Target: 25 seconds**
 
 "To close: everystore is a complete, working, role-aware e-commerce system — public browsing, Stripe payments with automatic fulfilment, wishlist, delivery addresses, reviews, admin analytics, customer management, and a real-time WebSocket dashboard. All integrated and consistent.
 
@@ -283,7 +297,7 @@ These are optional. The script above is complete and coherent if you present eve
 
 ---
 
-### Handing over for the live demo (after Slide 10)
+### Handing over for the live demo (after Slide 11)
 
 "That concludes the presentation slides. **[Himank / Saheb]** is now going to walk you through the live application — starting with the customer checkout flow and then the admin live dashboard."
 
@@ -305,8 +319,8 @@ OR for a focused module demo:
 |---|---|
 | Slides 1–4 (intro, problem, solution) | Karan |
 | Slides 5–6 (architecture, tech) | Himank or Karan |
-| Slide 7 (modules) + backend walkthrough | Saheb or Himank |
-| Slides 8–10 (workflow, DB, conclusion) | Karan to close |
+| Slides 7–8 (modules, testing) | Saheb or Himank |
+| Slides 9–11 (workflow, DB, conclusion) | Karan to close |
 | Live application demo | Himank + Saheb |
 
 ---
@@ -316,10 +330,10 @@ OR for a focused module demo:
 | Slide | Diagram | Status | Covered in revised script |
 |---|---|---|---|
 | 5 | **System Architecture** — three-tier layout with frontend, backend, DB, Stripe, Mailtrap, two communication channels, security components | Required improvement — original script named layers without walking through the diagram visually | ✅ Full zone-by-zone walk-through added |
-| 8 | **Application Workflow (UI Flow)** — routing decisions, public vs. protected paths, customer journey, Stripe payment flow, admin dashboard tabs, header nav | Required improvement — original described journeys in prose but did not guide through the diagram | ✅ Node-by-node walk-through added with pointer directions |
-| 9 | **Database ER Diagram** — 9 entities and all relationships | Required improvement — original described tables in paragraphs without tracing the diagram visually | ✅ Entity-by-entity walk-through with snapshot pattern highlights added |
+| 9 | **Application Workflow (UI Flow)** — routing decisions, public vs. protected paths, customer journey, Stripe payment flow, admin dashboard tabs, header nav | Required improvement — original described journeys in prose but did not guide through the diagram | ✅ Node-by-node walk-through added with pointer directions |
+| 10 | **Database ER Diagram** — 9 entities and all relationships | Required improvement — original described tables in paragraphs without tracing the diagram visually | ✅ Entity-by-entity walk-through with snapshot pattern highlights added |
 
-*No other meaningful diagrams are present in the presentation. Slides 1–4, 6, 7, and 10 are text/bullet layouts.*
+*No other meaningful diagrams are present in the presentation. Slides 1–4, 6, 7, 8, and 11 are text/bullet layouts.*
 
 ---
 
@@ -401,11 +415,11 @@ A: For a single-instance deployment — yes. It has proper security, environment
 ## Final Rehearsal Checklist
 
 - [ ] Run through the full script aloud at least twice — time yourself against the per-slide targets.
-- [ ] Practice the three diagram walk-throughs (slides 5, 8, 9) separately — these need smooth pointer movements.
+- [ ] Practice the three diagram walk-throughs (slides 5, 9, 10) separately — these need smooth pointer movements.
 - [ ] Confirm all three team member names and roll numbers on Slide 1 are correct.
-- [ ] Confirm the diagram slides (5, 8, 9) are legible at the display resolution you'll use on the day.
+- [ ] Confirm the diagram slides (5, 9, 10) are legible at the display resolution you'll use on the day.
 - [ ] Agree with Himank and Saheb in advance: who does the live demo and what exactly they'll demonstrate.
 - [ ] Have the app running and tested before the session starts — confirm Stripe test mode is active.
 - [ ] Review the Q&A section — especially the webhook idempotency, WebSocket auth, and snapshot pattern questions.
 - [ ] Confirm the course label "FSAD" matches what the evaluators expect.
-- [ ] Time check: target ≤12 minutes for slides, ≤10 for demo, ≤8 for Q&A.
+- [ ] Time check: target ≤11 minutes for slides, ≤10 for demo, ≤8 for Q&A.
