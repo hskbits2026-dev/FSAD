@@ -1,0 +1,98 @@
+erDiagram
+    USERS ||--o| CARTS         : "has (0..1)"
+    USERS ||--o{ ORDERS        : "places"
+    USERS ||--o{ FEEDBACK      : "writes"
+    USERS ||--o{ ADDRESSES     : "has"
+    USERS ||--o{ FAVOURITES    : "wishlists"
+    CARTS ||--o{ CART_ITEMS    : "contains"
+    PRODUCTS ||--o{ CART_ITEMS : "referenced by"
+    ORDERS ||--o{ ORDER_ITEMS  : "contains"
+    PRODUCTS ||--o{ ORDER_ITEMS: "referenced by"
+    PRODUCTS ||--o{ FAVOURITES : "wishlisted by"
+    PRODUCTS ||--o{ FEEDBACK   : "reviewed in (optional)"
+
+    USERS {
+        bigint   id PK
+        varchar  email UK "NOT NULL"
+        varchar  password_hash "NOT NULL"
+        varchar  full_name "NOT NULL"
+        varchar  phone "nullable"
+        varchar  role "NOT NULL (CUSTOMER|ADMIN)"
+        varchar  status "nullable (ACTIVE|INACTIVE)"
+        timestamp created_at "NOT NULL"
+    }
+
+    PRODUCTS {
+        bigint   id PK
+        bigint   version "optimistic lock"
+        varchar  name "NOT NULL"
+        varchar  description "len 1000"
+        decimal  price "NOT NULL (12,2)"
+        int      qoh "NOT NULL (stock)"
+        varchar  category "NOT NULL (enum)"
+        longtext image_base64 "NOT NULL (Base64 image)"
+    }
+
+    CARTS {
+        bigint id PK
+        bigint user_id FK "NOT NULL, UNIQUE"
+    }
+
+    CART_ITEMS {
+        bigint id PK
+        bigint cart_id FK "NOT NULL"
+        bigint product_id FK "NOT NULL"
+        int    quantity "NOT NULL"
+    }
+
+    ORDERS {
+        bigint   id PK
+        bigint   user_id FK "NOT NULL"
+        timestamp order_date "NOT NULL"
+        varchar  status "NOT NULL (enum)"
+        decimal  total_amount "NOT NULL (12,2)"
+        varchar  stripe_session_id UK "nullable, UNIQUE"
+        varchar  ship_recipient "nullable (snapshot)"
+        varchar  ship_line1 "nullable (snapshot)"
+        varchar  ship_city "nullable (snapshot)"
+        varchar  ship_state "nullable (snapshot)"
+        varchar  ship_pincode "nullable (snapshot)"
+    }
+
+    ORDER_ITEMS {
+        bigint  id PK
+        bigint  order_id FK "NOT NULL"
+        bigint  product_id FK "NOT NULL"
+        int     quantity "NOT NULL"
+        decimal price_at_purchase "NOT NULL (12,2)"
+    }
+
+    FEEDBACK {
+        bigint   id PK
+        bigint   user_id FK "NOT NULL"
+        bigint   product_id FK "nullable (review)"
+        varchar  message "NOT NULL, len 2000"
+        int      rating "NOT NULL"
+        timestamp created_at "NOT NULL"
+    }
+
+    ADDRESSES {
+        bigint  id PK
+        bigint  user_id FK "NOT NULL"
+        varchar label "NOT NULL"
+        varchar recipient_name "NOT NULL"
+        varchar phone "NOT NULL"
+        varchar line1 "NOT NULL"
+        varchar line2 "nullable"
+        varchar city "NOT NULL"
+        varchar state "NOT NULL"
+        varchar pincode "NOT NULL"
+        boolean is_default "NOT NULL"
+    }
+
+    FAVOURITES {
+        bigint    id PK
+        bigint    user_id FK "NOT NULL"
+        bigint    product_id FK "NOT NULL"
+        timestamp created_at "NOT NULL"
+    }

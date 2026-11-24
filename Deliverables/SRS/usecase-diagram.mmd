@@ -1,0 +1,44 @@
+flowchart LR
+    CUST(["👤 Customer"])
+    ADMIN(["👤 Admin"])
+    STRIPE{{"Stripe<br/>(external payment)"}}
+    MAIL{{"Mailtrap<br/>(external email)"}}
+
+    subgraph SYS["Online Shopping Platform"]
+        direction TB
+        UC1(["Register account"])
+        UC2(["Log in"])
+        UC3(["Browse / filter catalog"])
+        UC4(["View product details"])
+        UC5(["Manage shopping cart"])
+        UC6(["Checkout &amp; pay"])
+        UC7(["View order history"])
+        UC8(["Delete own order"])
+        UC9(["Submit feedback"])
+        UC10(["Manage products (CRUD)"])
+        UC11(["View sales analytics &amp; reports"])
+        UC12(["Monitor live dashboard feed"])
+        UC13(["Confirm payment via webhook"])
+        UC14(["Send order confirmation email"])
+    end
+
+    CUST --> UC1
+    CUST --> UC2
+    CUST --> UC3
+    CUST --> UC4
+    CUST --> UC5
+    CUST --> UC6
+    CUST --> UC7
+    CUST --> UC8
+    CUST --> UC9
+
+    ADMIN --> UC2
+    ADMIN --> UC10
+    ADMIN --> UC11
+    ADMIN --> UC12
+
+    UC6 -->|"redirect + create session"| STRIPE
+    STRIPE -->|"signed webhook"| UC13
+    UC13 -.->|"triggers"| UC14
+    UC14 --> MAIL
+    UC13 -.->|"pushes event"| UC12

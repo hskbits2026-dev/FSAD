@@ -1,0 +1,74 @@
+flowchart TB
+    %% ===== CLIENT LAYER =====
+    subgraph CLIENT["CLIENT LAYER"]
+        BROWSER["Web Browser<br/>Customer or Admin user"]
+        STRIPEUI["Stripe Hosted<br/>Checkout Page"]
+    end
+
+    %% ===== FRONTEND LAYER =====
+    subgraph FE["FRONTEND LAYER — React 19 SPA (built with Vite 8)"]
+        direction TB
+        PAGES["Pages &amp; Components<br/>Catalog, ProductDetail, Cart, Orders,<br/>Feedback, Login/Register, Admin dashboard"]
+        ROUTER["react-router-dom 7<br/>ProtectedRoute (adminOnly guard)"]
+        CTX["State — React Context API<br/>AuthContext (JWT in localStorage)<br/>CartContext"]
+        APICLIENT["api/client.js<br/>fetch() wrapper · attaches Bearer JWT"]
+        WSHOOK["useAdminSocket.js<br/>STOMP client (@stomp/stompjs)"]
+        PAGES --> ROUTER
+        PAGES --> CTX
+        PAGES --> APICLIENT
+        PAGES --> WSHOOK
+    end
+
+    %% ===== COMMUNICATION LAYER =====
+    subgraph COMM["API / COMMUNICATION LAYER"]
+        REST["REST over HTTP — JSON<br/>/api/** · Authorization: Bearer JWT<br/>(CORS-restricted origin)"]
+        WS["WebSocket / STOMP<br/>/ws endpoint → /topic/admin/** feeds"]
+    end
+
+    %% ===== BACKEND LAYER =====
+    subgraph BE["BACKEND / APPLICATION LAYER — Spring Boot 3 (Java)"]
+        direction TB
+        subgraph SEC["Security (Spring Security, stateless)"]
+            JWTFILTER["JwtAuthFilter<br/>validates JWT, sets ROLE_*"]
+            SECCFG["SecurityConfig<br/>CORS · CSRF off · path rules<br/>/api/admin/** = ROLE_ADMIN"]
+            STOMPINT["StompAuthChannelInterceptor<br/>authorizes STOMP CONNECT/SUBSCRIBE"]
+        end
+        CTRL["Controllers (@RestController)<br/>Auth · Product · Cart · Checkout · Order<br/>Feedback · AdminProduct · Sales · Report · StripeWebhook"]
+        SVC["Services (@Service — business rules)<br/>Auth, Jwt, Product, Cart, Order, Payment,<br/>Email, Notification, Report, SalesAnalysis"]
+        REPO["Repositories (Spring Data JPA)<br/>User, Product, Cart, CartItem,<br/>Order, OrderItem, Feedback"]
+        ADVICE["GlobalExceptionHandler<br/>@RestControllerAdvice → ApiError"]
+        CTRL --> SVC
+        SVC --> REPO
+        JWTFILTER -.guards.-> CTRL
+        STOMPINT -.guards.-> SVC
+    end
+
+    %% ===== DATABASE LAYER =====
+    subgraph DB["DATABASE LAYER"]
+        ORM["Hibernate / JPA (ORM)<br/>ddl-auto=update"]
+        MYSQL[("MySQL 8<br/>online_shopping<br/>(H2 in tests)")]
+        ORM --> MYSQL
+    end
+
+    %% ===== EXTERNAL SERVICES =====
+    subgraph EXT["EXTERNAL SERVICES"]
+        STRIPE["Stripe API<br/>(stripe-java SDK)<br/>Checkout Session + Webhook"]
+        MAILTRAP["Mailtrap Send API<br/>(HTTPS, order emails)"]
+    end
+
+    %% ===== FLOWS =====
+    BROWSER -->|HTTP| FE
+    APICLIENT -->|"fetch /api/**"| REST
+    WSHOOK -->|"CONNECT + Bearer"| WS
+    REST --> JWTFILTER
+    JWTFILTER --> CTRL
+    WS --> STOMPINT
+    REPO --> ORM
+
+    SVC -->|"create session / verify webhook"| STRIPE
+    SVC -->|"send confirmation email"| MAILTRAP
+    SVC -->|"push live events"| WS
+
+    BROWSER -->|"redirect to pay"| STRIPEUI
+    STRIPEUI -->|"payment done"| STRIPE
+    STRIPE -->|"POST /api/stripe/webhook (signed)"| REST

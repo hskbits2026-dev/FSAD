@@ -25,12 +25,12 @@ This applies to every change, however small. It is about teaching, not just doin
 ## Project
 
 Online shopping platform (e-commerce) with **Customer** and **Admin** roles, built in two phases.
-`fsad.md` is the authoritative requirements doc; `docs/superpowers/specs/` holds the design spec
+`requirement.md` is the authoritative requirements doc; `docs/superpowers/specs/` holds the design spec
 and `docs/superpowers/plans/` the per-module implementation plans. The Stripe payment flow is a
-deliberate scope extension beyond `fsad.md` (which does not mention payment).
+deliberate scope extension beyond `requirement.md` (which does not mention payment).
 
-- **Phase 1 (current)** — Spring Boot REST API + MySQL, in `online-shopping/`.
-- **Phase 2 (later)** — ReactJS SPA, to be added as a sibling `frontend/`.
+- **Phase 1 (complete)** — Spring Boot REST API + MySQL, in `online-shopping/`.
+- **Phase 2 (in progress)** — ReactJS SPA, in sibling `frontend/`.
 
 ## Commands
 
@@ -48,7 +48,7 @@ cd online-shopping
 
 - **Running the app** requires a live MySQL (`online_shopping` DB is auto-created). All secrets are
   read from env vars with dev-only fallbacks (see `application.properties`): `DB_USERNAME/PASSWORD`,
-  `JWT_SECRET`, `STRIPE_SECRET_KEY/WEBHOOK_SECRET`, `MAIL_USERNAME/PASSWORD`, `ADMIN_EMAIL/PASSWORD`.
+  `JWT_SECRET`, `STRIPE_SECRET_KEY/WEBHOOK_SECRET`, `MAILTRAP_API_TOKEN/MAILTRAP_INBOX_ID`, `ADMIN_EMAIL/PASSWORD`.
 - **Tests require no external services**: the `test` profile (`src/test/resources/application-test.properties`)
   swaps MySQL for in-memory H2 (MySQL compatibility mode) and uses dummy Stripe/mail/JWT values.
 - Swagger UI: `http://localhost:8081/swagger-ui.html`.

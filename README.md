@@ -1,14 +1,14 @@
 # Online Shopping Platform
 
 An e-commerce platform with **Customer** and **Admin** roles, built in two phases.
-See [fsad.md](fsad.md) for the source-of-truth requirements and
+See [requirement.md](requirement.md) for the source-of-truth requirements and
 [docs/superpowers/specs/](docs/superpowers/specs/) for the design spec.
 
 ## Repository layout (monorepo)
 
 ```
 FSAD/
-├── fsad.md                     # Requirements — single source of truth
+├── requirement.md             # Requirements — single source of truth
 ├── docs/superpowers/specs/     # Design specs (cover both phases)
 ├── online-shopping/            # Phase 1: Spring Boot REST API + MySQL
 └── frontend/                   # Phase 2: ReactJS UI (added later)
@@ -16,9 +16,9 @@ FSAD/
 
 ## Phases
 
-- **Phase 1 — Backend + DB** *(in progress)*: Spring Boot REST API, MySQL, JWT auth,
+- **Phase 1 — Backend + DB** *(complete)*: Spring Boot REST API, MySQL, JWT auth,
   Stripe checkout + webhook, email confirmation, WebSocket admin dashboard, Swagger UI.
-- **Phase 2 — UI**: ReactJS single-page app consuming the API.
+- **Phase 2 — UI** *(in progress)*: ReactJS single-page app consuming the API.
 
 ## Tech stack
 
@@ -105,5 +105,8 @@ npm run lint       # static checks (oxlint)
 > you are logged in as the admin account.
 
 ### Stripe logins
+
+```bash
 stripe login          # once, opens browser to authorize
 stripe listen --forward-to localhost:8081/api/stripe/webhook
+```
