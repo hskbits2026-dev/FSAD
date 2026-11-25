@@ -14,6 +14,20 @@ An e-commerce platform with **Customer** and **Admin** roles, built in two phase
 See [requirement.md](requirement.md) for the source-of-truth requirements and
 [docs/superpowers/specs/](docs/superpowers/specs/) for the design spec.
 
+## Features
+
+**Public:** catalogue browsing · product details · read reviews.
+
+**Customer:** wishlist / favourites · shopping cart · delivery address management ·
+secure Stripe checkout · order history & tracking · profile · feedback & product reviews.
+
+**Admin:** product management (CRUD) · sales analytics & reports · customer list with KPI tiles ·
+real-time dashboard (live orders, low-stock, feedback) · email confirmations.
+
+Order fulfilment is automatic and repeat-safe: on payment, stock is decremented, the order is
+marked paid (with an address snapshot), the cart is cleared, a confirmation email is sent, and the
+live admin dashboard is notified — all in one transaction.
+
 ## Repository layout (monorepo)
 
 ```
@@ -32,15 +46,17 @@ FSAD/
 
 ## Tech stack
 
-Java 21 · Spring Boot 4.1.1 · Spring Data JPA / Hibernate · MySQL · Spring Security (JWT) ·
-springdoc-openapi (Swagger) · Stripe · WebSocket (STOMP) · ReactJS (Phase 2).
+- **Frontend:** React 19 · Vite 8 · React Router 7
+- **Backend:** Java 21 · Spring Boot 4.1.1 · Spring Web / Security / Data JPA (Hibernate) · WebSocket (STOMP) · JWT
+- **Database:** MySQL 8
+- **External & tools:** Stripe · Mailtrap · Maven · springdoc-openapi (Swagger) · BCrypt · Lombok
 
 ## Local development (Phase 1)
 
 ### Prerequisites
 
 - **Java 21+** (`java -version`)
-- **MySQL** — the app needs a running MySQL on `localhost:3306`.
+- **MySQL 8** — the app needs a running MySQL on `localhost:3306`.
   On macOS, install via Homebrew: `brew install mysql`.
 
 ### MySQL (the database)
@@ -74,6 +90,12 @@ Swagger UI (API explorer): `http://localhost:8081/swagger-ui.html`
 
 Default seeded admin login: `admin@shop.com` / `Admin@123`.
 
+### Email (Mailtrap) — optional
+
+Order-confirmation emails are sent via [Mailtrap](https://mailtrap.io/). The app has dev-only
+fallbacks, so it starts without any mail config. To actually deliver emails, set `MAILTRAP_API_TOKEN`
+and `MAILTRAP_INBOX_ID` (see `online-shopping/src/main/resources/application.properties`).
+
 ## Running the frontend (Phase 2 — ReactJS)
 
 The UI is a [Vite](https://vite.dev/) + React single-page app in `frontend/`. In development it
@@ -82,7 +104,8 @@ backend on **port 8081** — so the browser only ever talks to `:5173` and there
 
 ### Prerequisites
 
-- **Node.js 18+** and npm (`node -v`, `npm -v`). On macOS: `brew install node`.
+- **Node.js 20.19+ or 22.12+** and npm (`node -v`, `npm -v`). On macOS: `brew install node`.
+  (Vite 8 requires Node 20.19+ / 22.12+; Node 18 is not supported.)
 - **The backend must be running first** (see above) on `http://localhost:8081`, or API calls
   (login, catalog, cart…) will fail.
 
