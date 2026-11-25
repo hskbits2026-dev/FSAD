@@ -6,8 +6,6 @@
 
 **Team:** Himank Sharma (2025sl70020) · Saheb Singh (2025sl70010) · Karan Naik (2025sl70007)
 
-**GitHub Repository:** [github.com/hskbits2026-dev/FSAD](https://github.com/hskbits2026-dev/FSAD)
-
 ---
 
 An e-commerce platform with **Customer** and **Admin** roles, built in two phases.
