@@ -1,4 +1,14 @@
-# Online Shopping Platform
+# everystore
+### A Full-Stack Online Shopping Platform
+*Online shopping with secure payments and real-time sales monitoring*
+
+**Course:** Full-Stack Application Development (FSAD) — Academic Project Overview
+
+**Team:** Himank Sharma (2025sl70020) · Saheb Singh (2025sl70010) · Karan Naik (2025sl70007)
+
+**GitHub Repository:** [github.com/hskbits2026-dev/FSAD](https://github.com/hskbits2026-dev/FSAD)
+
+---
 
 An e-commerce platform with **Customer** and **Admin** roles, built in two phases.
 See [requirement.md](requirement.md) for the source-of-truth requirements and
@@ -18,7 +28,7 @@ FSAD/
 
 - **Phase 1 — Backend + DB** *(complete)*: Spring Boot REST API, MySQL, JWT auth,
   Stripe checkout + webhook, email confirmation, WebSocket admin dashboard, Swagger UI.
-- **Phase 2 — UI** *(in progress)*: ReactJS single-page app consuming the API.
+- **Phase 2 — UI** *(complete)*: ReactJS single-page app consuming the API.
 
 ## Tech stack
 
